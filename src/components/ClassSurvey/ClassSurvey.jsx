@@ -99,7 +99,7 @@ const ClassSurvey = () => {
           <Select name="gender" value={formData.gender} onChange={handleChange}>
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
-            <MenuItem value="Nonbinary">Nonbinary</MenuItem>
+            <MenuItem value="Non-binary">Non-binary</MenuItem>
             <MenuItem value="Prefer not to say">Prefer not to say</MenuItem>
           </Select>
         </FormControl>
@@ -107,7 +107,7 @@ const ClassSurvey = () => {
         
         <Typography variant="h6" gutterBottom mt={3}>Ratings</Typography>
 
- {/* mt is margain top for Material UI, also for spacing */}
+ {/* mt is margin top for Material UI, also for spacing */}
 
         {Object.keys(formData.classRatings).map((key) => (
           <FormControl component="fieldset" fullWidth margin="normal" key={key}>
