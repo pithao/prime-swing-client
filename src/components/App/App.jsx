@@ -2,13 +2,16 @@ import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import useStore from "../../zustand/store";
-import Nav from "../Nav/Nav";
+
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import HomePage from "../HomePage/HomePage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import ClassSurvey from "../ClassSurvey/ClassSurvey";
 
-import { Box, Container, AppBar, Toolbar, Typography } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 
 function App() {
   const user = useStore((state) => state.user);
@@ -19,12 +22,9 @@ function App() {
   }, [fetchUser]);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <header>
-        <h1>Prime Solo Project</h1>
-        <Nav />
-      </header>
-      <main>
+    <CssBaseline>
+      <Header />
+      <Box component="main" style={{ marginTop: "3rem", padding: "0 .5rem" }}>
         <Routes>
           <Route
             exact
@@ -102,11 +102,9 @@ function App() {
           <Route path="*" element={<h2>404 Page</h2>} />
           <Route exact path="/class-survey" element={<ClassSurvey />} />
         </Routes>
-      </main>
-      <footer>
-        <p>Copyright © {new Date().getFullYear()}</p>
-      </footer>
-    </Box>
+      </Box>
+      <Footer />
+    </CssBaseline>
   );
 }
 
