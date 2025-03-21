@@ -122,7 +122,7 @@ const EventSurvey = () => {
                 <FormControlLabel
                   key={num}
                   value={num.toString()}
-                  control={<Radio checked={formData.classRatings[key] == num} onChange={() => handleRatingChange("classRatings", key, num)} />}
+                  control={<Radio checked={formData.eventRatings[key] == num} onChange={() => handleRatingChange("eventRatings", key, num)} />}
                   label={num}
                 />
               ))}
