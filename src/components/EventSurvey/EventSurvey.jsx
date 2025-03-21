@@ -69,7 +69,7 @@ const EventSurvey = () => {
 
   return (
     <Container maxWidth="md" sx={{ p: 4, bgcolor: "#fff", boxShadow: 3, borderRadius: 2 }}>
-      <Typography variant="h5" gutterBottom>Dance Survey</Typography>
+      <Typography variant="h5" gutterBottom>Event Survey</Typography>
 
 {/* gutterBottom adds spacing ebtween this and the form for formatting. nifty. */}
 
