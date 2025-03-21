@@ -11,7 +11,7 @@ import HomePage from '../HomePage/HomePage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import ClassSurvey from "../ClassSurvey/ClassSurvey"; 
-
+import EventSurvey from '../EventSurvey/EventSurvey';
 
 function App() {
   const user = useStore((state) => state.user);
@@ -101,6 +101,10 @@ function App() {
 <Route 
   exact path="/class-survey"
   element={<ClassSurvey />}
+/>
+<Route 
+  exact path="/event-survey"
+  element={<EventSurvey />}
 />
         </Routes>
       </main>
