@@ -15,7 +15,6 @@ const LocationSurvey = () => {
     locationFeedback: "",
     locationImprovement: "",
     locationRecommendations: "",
-    locationChallenges: "",
     generalComments: "",
     locationRatings: {
       buildingSatisfaction: 3,
@@ -24,7 +23,12 @@ const LocationSurvey = () => {
       importanceOfKeepingSameSchedule: 3,
       importanceOfKeepingSameDanceSchedule: 3,
       importanceOfKeepingSameEventSchedule: 3,
-    }
+    },
+    moveOutsideStPaul: "",
+    locationChallenges: "",
+    locationSafety: "",
+    locationChallengesExplanation: "",
+    locationSafetyExplanation: ""
   });
 
   const handleChange = (e) => {
@@ -126,9 +130,58 @@ const LocationSurvey = () => {
         <TextField fullWidth label="What did you like about the our current location?" name="locationFeedback" multiline rows={3} value={formData.locationFeedback} onChange={handleChange} margin="normal" />
         <TextField fullWidth label="What could be improved?" name="locationImprovement" multiline rows={3} value={formData.locationImprovement} onChange={handleChange} margin="normal" />
         <TextField fullWidth label="Do you have recommendations for a new location for our club?" name="locationRecommendations" multiline rows={3} value={formData.locationRecommendations} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="What, if anything, about our current location prevents or discourages you from attending?" name="locationChallenges" multiline rows={3} value={formData.locationChallenges} onChange={handleChange} margin="normal" />
         <TextField fullWidth label="Anything else you would like to share with us?" name="generalComments" multiline rows={3} value={formData.generalComments} onChange={handleChange} margin="normal" />
         
+        <Typography variant="h6" gutterBottom mt={3}>Additional Questions</Typography>
+
+<FormControl component="fieldset" margin="normal" fullWidth>
+  <Typography>Would you continue to attend if we moved our location out of St. Paul?</Typography>
+  <RadioGroup row name="moveOutsideStPaul" value={formData.moveOutsideStPaul} onChange={handleChange}>
+    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio />} label="No" />
+  </RadioGroup>
+</FormControl>
+
+<FormControl component="fieldset" margin="normal" fullWidth>
+  <Typography>Is there anything about our current location that keeps or discourages you from attending?</Typography>
+  <RadioGroup row name="locationChallenges" value={formData.locationChallenges} onChange={handleChange}>
+    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio />} label="No" />
+  </RadioGroup>
+  {formData.locationChallenges === "Yes" && (
+    <TextField
+      fullWidth
+      label="If so, what?"
+      name="locationChallengesExplanation"
+      multiline
+      rows={2}
+      value={formData.locationChallengesExplanation}
+      onChange={handleChange}
+      margin="normal"
+    />
+  )}
+</FormControl>
+
+<FormControl component="fieldset" margin="normal" fullWidth>
+  <Typography>Do you feel safe & comfortable at the current location?</Typography>
+  <RadioGroup row name="locationSafety" value={formData.locationSafety} onChange={handleChange}>
+    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio />} label="No" />
+  </RadioGroup>
+  {formData.locationSafety === "No" && (
+    <TextField
+      fullWidth
+      label="If not, why not?"
+      name="locationSafetyExplanation"
+      multiline
+      rows={2}
+      value={formData.locationSafetyExplanation}
+      onChange={handleChange}
+      margin="normal"
+    />
+  )}
+</FormControl>
+
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>Submit</Button>
       </form>
     </Container>
