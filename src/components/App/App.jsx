@@ -10,6 +10,7 @@ import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import ClassSurvey from "../ClassSurvey/ClassSurvey";
 import EventSurvey from "../EventSurvey/EventSurvey";
+import DanceSurvey from "../DanceSurvey/DanceSurvey";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -102,6 +103,7 @@ function App() {
           />
           <Route exact path="/class-survey" element={<ClassSurvey />} />
           <Route exact path="/event-survey" element={<EventSurvey />} />
+          <Route exact path="/dance-survey" element={<DanceSurvey />} />
           <Route path="*" element={<h2>404 Page</h2>} />
         </Routes>
       </Box>

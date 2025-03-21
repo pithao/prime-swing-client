@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Container, TextField, FormControl, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, RadioGroup, Radio, Button, Typography } from "@mui/material";
 
-// test change
 
-const EventSurvey = () => {
+const DanceSurvey = () => {
   const [formData, setFormData] = useState({
     anonymous: true,
     name: "",
@@ -13,23 +12,17 @@ const EventSurvey = () => {
     age: "",
     gender: "",
     zipCode: "",
-    eventFeedback: "",
-    eventImprovement: "",
-    proComments: "",
-    danceComments: "",
-    workshopComments: "",
+    danceFeedback: "",
+    danceImprovement: "",
+    lessonComments: "",
     djComments: "",
-    additionalWorkshops: "",
     generalComments: "",
-    dancesAttended: "",
-    workshopsAttended: "",
-    eventRatings: {
-      eventSatisfaction: 3,
-      pro: 3,
-      dj: 3,
-      workshop: 3,
+    danceRatings: {
+      satisfaction: 3,
+      instructor: 3,
+      lessonSatisfaction: 3,
       recommendationLikelihood: 3,
-      workshopSatisfaction: 3,
+      djSatisfaction: 3,
       locationSatisfaction: 3,
       scheduleSatisfaction: 3,
     }
@@ -69,7 +62,7 @@ const EventSurvey = () => {
 
   return (
     <Container maxWidth="md" sx={{ p: 4, bgcolor: "#fff", boxShadow: 3, borderRadius: 2 }}>
-      <Typography variant="h5" gutterBottom>Event Survey </Typography>
+      <Typography variant="h5" gutterBottom>Dance Survey</Typography>
 
 {/* gutterBottom adds spacing between this and the form for formatting. nifty. */}
 
@@ -114,7 +107,7 @@ const EventSurvey = () => {
 
  {/* mt is margin top for Material UI, also for spacing */}
 
-        {Object.keys(formData.eventRatings).map((key) => (
+        {Object.keys(formData.danceRatings).map((key) => (
           <FormControl component="fieldset" fullWidth margin="normal" key={key}>
             <Typography>{formatLabel(key)}</Typography>
             <RadioGroup row>
@@ -122,7 +115,7 @@ const EventSurvey = () => {
                 <FormControlLabel
                   key={num}
                   value={num.toString()}
-                  control={<Radio checked={formData.eventRatings[key] == num} onChange={() => handleRatingChange("eventRatings", key, num)} />}
+                  control={<Radio checked={formData.danceRatings[key] == num} onChange={() => handleRatingChange("danceRatings", key, num)} />}
                   label={num}
                 />
               ))}
@@ -131,16 +124,11 @@ const EventSurvey = () => {
         ))}
         
         <Typography variant="h6" gutterBottom mt={3}>Comments/Long Answers</Typography>
-        <TextField fullWidth label="What did you like about the event?" name="eventFeedback" multiline rows={3} value={formData.eventFeedback} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="What could be improved?" name="eventImprovement" multiline rows={3} value={formData.eventImprovement} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Comments about the pro" name="proComments" multiline rows={3} value={formData.proComments} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Comments about the dances" name="danceComments" multiline rows={3} value={formData.danceComments} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Comments about the workshops" name="workshopComments" multiline rows={3} value={formData.workshopComments} onChange={handleChange} margin="normal" />
+        <TextField fullWidth label="What did you like about the dance?" name="danceFeedback" multiline rows={3} value={formData.danceFeedback} onChange={handleChange} margin="normal" />
+        <TextField fullWidth label="What could be improved?" name="danceImprovement" multiline rows={3} value={formData.danceImprovement} onChange={handleChange} margin="normal" />
+        <TextField fullWidth label="Comments about the lesson" name="lessonComments" multiline rows={3} value={formData.lessonComments} onChange={handleChange} margin="normal" />
         <TextField fullWidth label="Comments about the DJ" name="djComments" multiline rows={3} value={formData.djComments} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Are there workshops topics we're not offering that you would like us to offer?" name="additionalWorkshops" multiline rows={3} value={formData.additionalWorkshops} onChange={handleChange} margin="normal" />
         <TextField fullWidth label="Anything else you would like to share with us?" name="generalComments" multiline rows={3} value={formData.generalComments} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Which dances did you attend? (if any)" name="dancesAttended" multiline rows={3} value={formData.dancesAttended} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Which workshops did you attend? (if any)" name="workshopsAttended" multiline rows={3} value={formData.workshopsAttended} onChange={handleChange} margin="normal" />
         
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>Submit</Button>
       </form>
@@ -148,7 +136,7 @@ const EventSurvey = () => {
   );
 };
 
-export default EventSurvey;
+export default DanceSurvey;
 
 
 
