@@ -38,8 +38,8 @@ function App() {
   }, [fetchUser]);
 
   return (
-    <CssBaseline>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline>
         <Header />
         <Box component="main" style={{ marginTop: "3rem", padding: "0 .5rem" }}>
           <Routes>
@@ -125,8 +125,8 @@ function App() {
           </Routes>
         </Box>
         <Footer />
-      </ThemeProvider>
-    </CssBaseline>
+      </CssBaseline>
+    </ThemeProvider>
   );
 }
 

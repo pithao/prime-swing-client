@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import useStore from "../../zustand/store";
 
 // Docs: MUI App Bar with Responsive Menu
@@ -16,7 +17,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -52,17 +52,18 @@ function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
-            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
             }}
           >
-            <img
-              src="/images/rebels-logo.png"
-              style={{ width: "7rem", padding: "1rem" }}
-              alt="Twin Cities Rebels Swing Dance Club"
-            />
+            <Link to="/">
+              <img
+                src="/images/rebels-logo.png"
+                style={{ width: "7rem", padding: "1rem" }}
+                alt="Twin Cities Rebels Swing Dance Club"
+              />
+            </Link>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
