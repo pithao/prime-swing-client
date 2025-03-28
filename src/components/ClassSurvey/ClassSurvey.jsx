@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, TextField, FormControl, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, RadioGroup, Radio, Button, Typography } from "@mui/material";
-
+import { NavLink } from "react-router-dom";
 
 const ClassSurvey = () => {
   const [formData, setFormData] = useState({
@@ -133,6 +133,7 @@ const ClassSurvey = () => {
         <TextField fullWidth label="Anything else you would like to share with us?" name="generalComments" multiline rows={3} value={formData.generalComments} onChange={handleChange} margin="normal" />
         
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>Submit</Button>
+         <NavLink to='/'>Back</NavLink>
       </form>
     </Container>
   );

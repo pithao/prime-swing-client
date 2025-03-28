@@ -10,6 +10,7 @@ import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import ClassSurvey from "../ClassSurvey/ClassSurvey";
 import EventSurvey from "../EventSurvey/EventSurvey";
+import EventFormData from "../EventFormData/EventFormData";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";

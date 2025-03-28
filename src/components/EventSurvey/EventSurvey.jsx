@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, TextField, FormControl, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, RadioGroup, Radio, Button, Typography } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
-// test change
 
 const EventSurvey = () => {
   const [formData, setFormData] = useState({
@@ -69,7 +69,7 @@ const EventSurvey = () => {
 
   return (
     <Container maxWidth="md" sx={{ p: 4, bgcolor: "#fff", boxShadow: 3, borderRadius: 2 }}>
-      <Typography variant="h5" gutterBottom>Dance Survey</Typography>
+      <Typography variant="h5" gutterBottom>Event Survey</Typography>
 
 {/* gutterBottom adds spacing ebtween this and the form for formatting. nifty. */}
 
@@ -143,6 +143,7 @@ const EventSurvey = () => {
         <TextField fullWidth label="Which workshops did you attend? (if any)" name="workshopsAttended" multiline rows={3} value={formData.workshopsAttended} onChange={handleChange} margin="normal" />
         
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>Submit</Button>
+        <NavLink to='/'>Back</NavLink>
       </form>
     </Container>
   );

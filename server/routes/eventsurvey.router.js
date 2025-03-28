@@ -1,22 +1,25 @@
 const express = require('express');
-const router = express.Router(); // <- This line initializes the router
-const pool = require('../modules/pool'); // Importing from pool
-// const { rejectUnauthenticated } = require('../middleware/authMiddleware'); 
-const userStrategy = require('../strategies/user.strategy');
+const pool = require('../modules/pool');
+const router = express.Router();
+
+//GET
+router.get('/', async (req, res) => {
+    try {
+      console.log('GET /api/eventsurvey');
+      const queryString = `SELECT * FROM event_survey ORDER BY id DESC;`;
+      const results = await pool.query(queryString);
+      res.json(results.rows);
+    } catch (err) {
+      console.error("Error fetching surveys:", err);
+      res.sendStatus(400);
+    }
+  });
+
+//POST
+
+//DELETE
 
 
-
-  router.get('/', ( req, res)=>{
-    console.log('GET /api/eventsurvey');
-    // res.send('meow')
-    const queryString = `SELECT * FROM "event_survey"`;
-    pool.query( queryString ).then( ( results )=>{
-        res.send(results.rows );
-  }).catch( (err )=>{
-    console.log(err );
-    res.send( 400 );
-  })
- });
-
+//UPDATE
 
 module.exports = router;
