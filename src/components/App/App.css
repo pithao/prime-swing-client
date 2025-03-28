@@ -1,0 +1,20 @@
+
+.Main-Header {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: right;
+    color: red;
+
+    
+}
+
+.Rebel-Img {
+    max-height: 100px;
+    
+    
+}
+
+.Img-Div {
+    align-content: left ;
+}

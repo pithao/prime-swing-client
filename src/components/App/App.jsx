@@ -17,6 +17,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import FireBaseTest from "../FireBaseTest/FireBaseTest";
 
 function App() {
   const user = useStore((state) => state.user);
@@ -76,6 +77,11 @@ function App() {
                 )
               }
             />
+            <Route
+              exact
+              path="/FireBaseTest"
+              element={<FireBaseTest />}
+              />
             <Route
               exact
               path="/about"
