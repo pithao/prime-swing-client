@@ -21,6 +21,7 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = [
   { label: "Class Survey", path: "/class-survey" },
   { label: "Dance Survey", path: "/dance-survey" },
+  {label: "Survey Responses", path: "/class-survey-responses"},
 ];
 
 const settings = ["Dashboard", "Logout"];
