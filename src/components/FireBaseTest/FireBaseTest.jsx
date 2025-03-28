@@ -10,11 +10,11 @@ function FireBaseTest(){
         const getSurveys = async () => {
 
          const data = await getDocs(userCollectionRef)
-         console.log("What are we getting from the DB: ", data)
+         
          setSurvey(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
         }
         getSurveys()
-        console.log("What's in the box: ", surveys)
+        
     }, [] );
 
     return(
@@ -22,9 +22,11 @@ function FireBaseTest(){
             <p>{JSON.stringify(surveys)}</p>
             {surveys.map((survey) => (
                 
-                <div>
+                <div key={survey.id}>
                 {" "}
-                    <h1> age: {survey.age} </h1>
+                    <h3>Name: {survey.name}</h3>
+                    <p> age: {survey.age} </p>
+                    
                 </div>
             ))}
         </div>
