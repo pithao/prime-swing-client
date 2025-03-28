@@ -12,12 +12,12 @@ import ClassSurvey from "../ClassSurvey/ClassSurvey";
 import EventSurvey from "../EventSurvey/EventSurvey";
 import DanceSurvey from "../DanceSurvey/DanceSurvey";
 import LocationSurvey from "../LocationSurvey/LocationSurvey";
+import ClassSurveyResponses from "../ClassSurveyResponses/ClassSurveyResponses";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import FireBaseTest from "../FireBaseTest/FireBaseTest";
 
 function App() {
   const user = useStore((state) => state.user);
@@ -79,9 +79,9 @@ function App() {
             />
             <Route
               exact
-              path="/FireBaseTest"
-              element={<FireBaseTest />}
-              />
+              path="/class-survey-responses"
+              element={<ClassSurveyResponses />}
+            />
             <Route
               exact
               path="/about"
