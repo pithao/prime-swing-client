@@ -1,4 +1,6 @@
 import useStore from '../../zustand/store'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 function HomePage() {
@@ -7,7 +9,17 @@ function HomePage() {
 
   return (
     <>
-      <h2>Home Page</h2>
+      <h2>Survey Data</h2>
+      <p>
+    <NavLink to="/eventformdata"><button>Event Data</button></NavLink> 
+      </p>
+    <p>
+    <NavLink to="/danceformdata"><button>Dance Data</button></NavLink>
+    </p>
+    <p>
+    <NavLink to="/classformdata"><button>Dance Class Survey Data</button></NavLink>
+    </p>
+    
       <p>Your username is: {user.username}</p>
       <p>Your ID is: {user.id}</p>
       <button onClick={logOut}>
