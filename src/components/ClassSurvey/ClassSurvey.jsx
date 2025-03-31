@@ -67,6 +67,7 @@ const ClassSurvey = () => {
         timestamp: serverTimestamp(),
       });
     
+      // console.log('Form Submitted:', classForm);
     alert ('Survey Submitted! Thank you for your feedback.');
     resetClassForm();
   } catch (error) {
