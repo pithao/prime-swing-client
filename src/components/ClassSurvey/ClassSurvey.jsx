@@ -13,44 +13,33 @@ import {
   Button,
   Typography,
 } from '@mui/material';
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  addDoc, 
+  serverTimestamp 
+} from 'firebase/firestore';
+import { db } from '../../firebase-config'; 
+import useStore from '../../zustand/store';
 
 const ClassSurvey = () => {
-  const [formData, setFormData] = useState({
-    anonymous: true,
-    name: '',
-    email: '',
-    contactPermission: false,
-    dancerRole: '',
-    age: '',
-    gender: '',
-    zipCode: '',
-    classFeedback: '',
-    classImprovement: '',
-    leadInstructorComments: '',
-    followInstructorComments: '',
-    additionalTopics: '',
-    generalComments: '',
-    classRatings: {
-      satisfaction: 3,
-      leadInstructor: 3,
-      followInstructor: 3,
-      retakeLikelihood: 3,
-      materialSatisfaction: 3,
-      locationSatisfaction: 3,
-      scheduleSatisfaction: 3,
-    },
-  });
+  const {
+    classForm,
+    setClassForm,
+    resetClassForm
+  } = useStore(); 
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
+    setClassForm((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
   const handleRatingChange = (section, key, value) => {
-    setFormData((prev) => ({
+    setClassForm((prev) => ({
       ...prev,
       [section]: { ...prev[section], [key]: value },
     }));
@@ -69,10 +58,21 @@ const ClassSurvey = () => {
   };
   // writing this function almost ruined my life
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
-    alert('Survey Submitted! Thank you for your feedback.');
+
+    try {
+      await addDoc(collection(db, 'classSurveys'), {
+        ...classForm,
+        timestamp: serverTimestamp(),
+      });
+    
+    alert ('Survey Submitted! Thank you for your feedback.');
+    resetClassForm();
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    alert('There was an error submitting the form.');
+  }
   };
 
   return (
@@ -90,20 +90,20 @@ const ClassSurvey = () => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={formData.anonymous}
+              checked={classForm.anonymous}
               onChange={handleChange}
               name="anonymous"
             />
           }
           label="Would you like to remain anonymous?"
         />
-        {!formData.anonymous && (
+        {!classForm.anonymous && (
           <>
             <TextField
               fullWidth
               label="Name"
               name="name"
-              value={formData.name}
+              value={classForm.name}
               onChange={handleChange}
               margin="normal"
             />
@@ -112,14 +112,14 @@ const ClassSurvey = () => {
               label="Email"
               name="email"
               type="email"
-              value={formData.email}
+              value={classForm.email}
               onChange={handleChange}
               margin="normal"
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={formData.contactPermission}
+                  checked={classForm.contactPermission}
                   onChange={handleChange}
                   name="contactPermission"
                 />
@@ -132,7 +132,7 @@ const ClassSurvey = () => {
           <InputLabel>Dancer Role</InputLabel>
           <Select
             name="dancerRole"
-            value={formData.dancerRole}
+            value={classForm.dancerRole}
             onChange={handleChange}
           >
             <MenuItem value="Lead only">Lead only</MenuItem>
@@ -147,13 +147,13 @@ const ClassSurvey = () => {
           label="Age"
           name="age"
           type="number"
-          value={formData.age}
+          value={classForm.age}
           onChange={handleChange}
           margin="normal"
         />
         <FormControl fullWidth margin="normal">
           <InputLabel>Gender</InputLabel>
-          <Select name="gender" value={formData.gender} onChange={handleChange}>
+          <Select name="gender" value={classForm.gender} onChange={handleChange}>
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
             <MenuItem value="Non-binary">Non-binary</MenuItem>
@@ -164,7 +164,7 @@ const ClassSurvey = () => {
           fullWidth
           label="Zip Code"
           name="zipCode"
-          value={formData.zipCode}
+          value={classForm.zipCode}
           onChange={handleChange}
           margin="normal"
         />
@@ -175,7 +175,7 @@ const ClassSurvey = () => {
 
         {/* mt is margin top for Material UI, also for spacing */}
 
-        {Object.keys(formData.classRatings).map((key) => (
+        {Object.keys(classForm.classRatings).map((key) => (
           <FormControl component="fieldset" fullWidth margin="normal" key={key}>
             <Typography>{formatLabel(key)}</Typography>
             <RadioGroup row>
@@ -185,7 +185,7 @@ const ClassSurvey = () => {
                   value={num.toString()}
                   control={
                     <Radio
-                      checked={formData.classRatings[key] == num}
+                      checked={classForm.classRatings[key] == num}
                       onChange={() =>
                         handleRatingChange('classRatings', key, num)
                       }
@@ -207,7 +207,7 @@ const ClassSurvey = () => {
           name="classFeedback"
           multiline
           rows={3}
-          value={formData.classFeedback}
+          value={classForm.classFeedback}
           onChange={handleChange}
           margin="normal"
         />
@@ -217,7 +217,7 @@ const ClassSurvey = () => {
           name="classImprovement"
           multiline
           rows={3}
-          value={formData.classImprovement}
+          value={classForm.classImprovement}
           onChange={handleChange}
           margin="normal"
         />
@@ -227,7 +227,7 @@ const ClassSurvey = () => {
           name="leadInstructorComments"
           multiline
           rows={3}
-          value={formData.leadInstructorComments}
+          value={classForm.leadInstructorComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -237,7 +237,7 @@ const ClassSurvey = () => {
           name="followInstructorComments"
           multiline
           rows={3}
-          value={formData.followInstructorComments}
+          value={classForm.followInstructorComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -247,7 +247,7 @@ const ClassSurvey = () => {
           name="additionalTopics"
           multiline
           rows={3}
-          value={formData.additionalTopics}
+          value={classForm.additionalTopics}
           onChange={handleChange}
           margin="normal"
         />
@@ -257,7 +257,7 @@ const ClassSurvey = () => {
           name="generalComments"
           multiline
           rows={3}
-          value={formData.generalComments}
+          value={classForm.generalComments}
           onChange={handleChange}
           margin="normal"
         />

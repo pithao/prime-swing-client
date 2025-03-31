@@ -13,7 +13,6 @@ import {
   Button,
   Typography,
 } from '@mui/material';
-import { getFirestore } from 'firebase/firestore';
 import { 
   collection, 
   getDocs, 
