@@ -13,24 +13,34 @@ import {
   Button,
   Typography,
 } from '@mui/material';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase'; 
-import createSurveySlice from '../store/createSurveySlice'; 
+import { getFirestore } from 'firebase/firestore';
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  addDoc, 
+  serverTimestamp 
+} from 'firebase/firestore';
+import { db } from '../../firebase-config'; 
+import useStore from '../../zustand/store';
 
 const DanceSurvey = () => {
-  const { danceForm, setDanceForm, resetDanceForm } = createSurveySlice();
-
+  const {
+    danceForm,
+    setDanceForm,
+    resetDanceForm
+  } = useStore();  
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setdanceForm((prev) => ({
+    setDanceForm((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
   const handleRatingChange = (section, key, value) => {
-    setdanceForm((prev) => ({
+    setDanceForm((prev) => ({
       ...prev,
       [section]: { ...prev[section], [key]: value },
     }));
