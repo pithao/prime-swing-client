@@ -21,6 +21,20 @@ const DanceFormData = () => {
     useEffect(() => {
       fetchDanceFormData();
     }, []);
+
+    function deleteDanceFormData(id){
+      console.log('Deleting event data', id)
+      axios.delete(`/api/danceformdata/${id}`)
+      .then(response=>{
+          console.log('DanceFormData DELETED:', response);
+          fetchDanceFormData();
+      })
+      .catch(function( err){
+          console.log(err)
+          alert('error deleting event data')
+      })
+}
+
   return (
 
     <div>
@@ -51,7 +65,7 @@ const DanceFormData = () => {
             <p><strong>Dj Rating:</strong> {survey.dj_satisfaction_rating}/5</p>
             <p><strong>Location Satisfaction:</strong> {survey.location_satisfaction}/5</p>
             <p><strong>Schedule Satisfaction:</strong> {survey.schedule_satisfaction}/5</p>
-            <button>Delete</button>
+            <button onClick={()=>deleteDanceFormData(survey.id)}>Delete</button>
           </li>
         ))}
       </ul>

@@ -18,7 +18,17 @@ router.get('/', async (req, res) => {
 //POST
 
 //DELETE
-
+router.delete('/:id', (req, res)=>{
+  console.log('/danceformdata DELETE', req.params.id );
+  const queryString = `DELETE FROM "dance_survey" WHERE id=$1;`;
+  const values = [ req.params.id ]
+  pool.query( queryString, values).then( ( results )=>{
+    res.sendStatus( 200 );
+  }).catch( ( err )=>{
+    console.log( err );
+    res.sendStatus( 400 );
+  })
+})
 
 //UPDATE
 
