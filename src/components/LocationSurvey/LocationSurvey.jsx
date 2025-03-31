@@ -30,21 +30,24 @@ const LocationSurvey = () => {
     resetLocationForm
   } = useStore(); 
 
-  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setLocationForm((prev) => ({
-      ...prev,
+    setLocationForm({
+      ...locationForm,
       [name]: type === 'checkbox' ? checked : value,
-    }));
+    });
   };
 
   const handleRatingChange = (section, key, value) => {
-    setLocationForm((prev) => ({
-      ...prev,
-      [section]: { ...prev[section], [key]: value },
-    }));
+    setLocationForm({
+      ...locationForm,
+      [section]: {
+        ...locationForm[section],
+        [key]: value,
+      },
+    });
   };
+  
 
   const formatLabel = (key) => {
     return (

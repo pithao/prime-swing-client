@@ -33,17 +33,20 @@ const EventSurvey = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setEventForm((prev) => ({
-      ...prev,
+    setEventForm({
+      ...eventForm,
       [name]: type === 'checkbox' ? checked : value,
-    }));
+    });
   };
 
   const handleRatingChange = (section, key, value) => {
-    setEventForm((prev) => ({
-      ...prev,
-      [section]: { ...prev[section], [key]: value },
-    }));
+    setEventForm({
+      ...eventForm,
+      [section]: {
+        ...eventForm[section],
+        [key]: value,
+      },
+    });
   };
 
   const formatLabel = (key) => {

@@ -32,17 +32,20 @@ const DanceSurvey = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setDanceForm((prev) => ({
-      ...prev,
+    setDanceForm({
+      ...danceForm,
       [name]: type === 'checkbox' ? checked : value,
-    }));
+    });
   };
 
   const handleRatingChange = (section, key, value) => {
-    setDanceForm((prev) => ({
-      ...prev,
-      [section]: { ...prev[section], [key]: value },
-    }));
+    setDanceForm({
+      ...danceForm,
+      [section]: {
+        ...danceForm[section],
+        [key]: value,
+      },
+    });
   };
 
   const formatLabel = (key) => {

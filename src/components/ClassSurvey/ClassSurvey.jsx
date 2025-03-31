@@ -32,17 +32,20 @@ const ClassSurvey = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setClassForm((prev) => ({
-      ...prev,
+    setClassForm({
+      ...classForm,
       [name]: type === 'checkbox' ? checked : value,
-    }));
+    });
   };
 
   const handleRatingChange = (section, key, value) => {
-    setClassForm((prev) => ({
-      ...prev,
-      [section]: { ...prev[section], [key]: value },
-    }));
+    setClassForm({
+      ...classForm,
+      [section]: {
+        ...classForm[section],
+        [key]: value,
+      },
+    });
   };
 
   const formatLabel = (key) => {
