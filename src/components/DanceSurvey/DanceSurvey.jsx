@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, TextField, FormControl, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, RadioGroup, Radio, Button, Typography } from "@mui/material";
-
+import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const DanceSurvey = () => {
   const [formData, setFormData] = useState({
@@ -56,8 +57,37 @@ const DanceSurvey = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    alert("Survey Submitted! Thank you for your feedback.");
+    axios.post('/api/danceformdata', formdata).then(function ( response){
+      console.log(' back from POST:', response.data)
+      setFormData({
+        anonymous: true,
+    name: "",
+    email: "",
+    contactPermission: false,
+    dancerRole: "",
+    age: "",
+    gender: "",
+    zipCode: "",
+    danceFeedback: "",
+    danceImprovement: "",
+    lessonComments: "",
+    djComments: "",
+    generalComments: "",
+    danceRatings: {
+      satisfaction: 3,
+      instructor: 3,
+      lessonSatisfaction: 3,
+      recommendationLikelihood: 3,
+      djSatisfaction: 3,
+      locationSatisfaction: 3,
+      scheduleSatisfaction: 3,
+    }
+      });
+    }).catch(function( err ){
+      console.log("Form Submitted:");
+      alert("Survey Submitted! Thank you for your feedback.");
+    })
+    
   };
 
   return (
@@ -131,6 +161,7 @@ const DanceSurvey = () => {
         <TextField fullWidth label="Anything else you would like to share with us?" name="generalComments" multiline rows={3} value={formData.generalComments} onChange={handleChange} margin="normal" />
         
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>Submit</Button>
+        <p> <NavLink to="/">Back</NavLink> </p> 
       </form>
     </Container>
   );

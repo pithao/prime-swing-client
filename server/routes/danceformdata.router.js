@@ -16,6 +16,47 @@ router.get('/', async (req, res) => {
   });
 
 //POST
+router.post('/', (req, res)=>{
+  console.log('/api/danceformdata', req.body, req.query)
+  const {
+    anonymous, name, email, contactPermission, dancerRole, age, gender, zipCode,
+    danceFeedback, danceImprovement, lessonComments, djComments, generalComments,
+    danceRatings
+  } = req.body;
+
+  
+  const {
+    satisfaction, instructor, lessonSatisfaction, recommendationLikelihood,
+    djSatisfaction, locationSatisfaction, scheduleSatisfaction
+  } = danceRatings;
+
+  const queryText = `
+    INSERT INTO "dance_survey" (
+      anonymous, name, email, contact_permission, dancer_role, age, gender, zip_code, 
+      satisfaction, instructor_rating, lesson_satisfaction, recommendation_likelihood, 
+      dj_satisfaction, location_satisfaction, schedule_satisfaction, 
+      dance_feedback, dance_improvement, lesson_comments, dj_comments, general_comments
+    ) 
+    VALUES (
+      $1, $2, $3, $4, $5, $6, $7, $8, 
+      $9, $10, $11, $12, $13, $14, $15, 
+      $16, $17, $18, $19, $20
+    );
+  `;
+
+  const values = [
+    anonymous, name, email, contactPermission, dancerRole, age, gender, zipCode,
+    satisfaction, instructor, lessonSatisfaction, recommendationLikelihood,
+    djSatisfaction, locationSatisfaction, scheduleSatisfaction,
+    danceFeedback, danceImprovement, lessonComments, djComments, generalComments
+  ];
+  pool.query(queryText, values ).then( ( results )=>{
+    res.sendStatus(201);
+  }).catch( ( err )=>{
+    console.log( err );
+    res.sendStatus( 400 );
+  })
+})
 
 //DELETE
 router.delete('/:id', (req, res)=>{

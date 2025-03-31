@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, TextField, FormControl, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, RadioGroup, Radio, Button, Typography } from "@mui/material";
-
-// test change
+import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const EventSurvey = () => {
   const [formData, setFormData] = useState({
@@ -63,9 +63,46 @@ const EventSurvey = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    alert("Survey Submitted! Thank you for your feedback.");
+    axios.post('/api/eventformdata', formData).then(function (response){
+      console.log(' back from POSt:', response.data);
+      setFormData({
+        anonymous: true,
+        name: "",
+        email: "",
+        contactPermission: false,
+        dancerRole: "",
+        age: "",
+        gender: "",
+        zipCode: "",
+        eventFeedback: "",
+        eventImprovement: "",
+        proComments: "",
+        danceComments: "",
+        workshopComments: "",
+        djComments: "",
+        additionalWorkshops: "",
+        generalComments: "",
+        dancesAttended: "",
+        workshopsAttended: "",
+        eventRatings: {
+          eventSatisfaction: 3,
+          pro: 3,
+          dj: 3,
+          workshop: 3,
+          recommendationLikelihood: 3,
+          workshopSatisfaction: 3,
+          locationSatisfaction: 3,
+          scheduleSatisfaction: 3,
+        }
+      });
+    }).catch( function( err){
+      console.log("Form Submitted:");
+      alert("Survey Submitted! Thank you for your feedback.");
+    })
+   
+   
   };
+
 
   return (
     <Container maxWidth="md" sx={{ p: 4, bgcolor: "#fff", boxShadow: 3, borderRadius: 2 }}>
@@ -143,6 +180,7 @@ const EventSurvey = () => {
         <TextField fullWidth label="Which workshops did you attend? (if any)" name="workshopsAttended" multiline rows={3} value={formData.workshopsAttended} onChange={handleChange} margin="normal" />
         
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>Submit</Button>
+        <p> <NavLink to="/">Back</NavLink> </p> 
       </form>
     </Container>
   );

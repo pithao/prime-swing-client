@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, TextField, FormControl, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, RadioGroup, Radio, Button, Typography } from "@mui/material";
-
+import { NavLink } from "react-router-dom";
 
 const LocationSurvey = () => {
   const [formData, setFormData] = useState({
@@ -183,6 +183,7 @@ const LocationSurvey = () => {
 </FormControl>
 
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>Submit</Button>
+        <p> <NavLink to="/">Back</NavLink> </p> 
       </form>
     </Container>
   );
