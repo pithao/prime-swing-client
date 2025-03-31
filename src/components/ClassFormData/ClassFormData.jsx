@@ -21,6 +21,20 @@ const ClassFormData = () => {
     useEffect(() => {
       fetchClassFormData();
     }, []);
+
+    function deleteClassFormData(id){
+      console.log('Deleting classformdata', id)
+      axios.delete(`/api/classformdata/${id}`)
+      .then(response=>{
+          console.log('ClassFormData DELETED:', response);
+          fetchClassFormData();
+      })
+      .catch(function( err){
+          console.log(err)
+          alert('error deleting classformdata')
+      })
+}
+
   return (
 
     <div>
@@ -52,7 +66,7 @@ const ClassFormData = () => {
             <p><strong>Material Satisfaction:</strong> {survey.material_satisfaction}/5</p>
             <p><strong>Location Satisfaction:</strong> {survey.location_satisfaction}/5</p>
             <p><strong>Schedule Satisfaction:</strong> {survey.schedule_satisfaction}/5</p>
-           <button>Delete</button>  
+           <button onClick={()=>deleteClassFormData(survey.id)}>Delete</button>  
         
           </li>
         ))}

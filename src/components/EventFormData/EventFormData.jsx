@@ -21,6 +21,20 @@ const EventFormData = () => {
     useEffect(() => {
       fetchEventFormData();
     }, []);
+
+    function deleteEventData(id){
+            console.log('Deleting event data', id)
+            axios.delete(`/api/eventformdata/${id}`)
+            .then(response=>{
+                console.log('EventData DELETED:', response);
+                fetchEventFormData();
+            })
+            .catch(function( err){
+                console.log(err)
+                alert('error deleting event data')
+            })
+    }
+
   return (
 
     <div>
@@ -57,7 +71,7 @@ const EventFormData = () => {
             <p><strong>General Comments:</strong> {survey.general_comments}</p>
             <p><strong>Dances Attended:</strong> {survey.dances_attended}</p>
             <p><strong>Workshops Attended:</strong> {survey.workshops_attended}</p>
-           <button>Delete</button>  
+           <button onClick={()=>deleteEventData(survey.id)} >Delete</button>  
         
           </li>
         ))}
