@@ -87,6 +87,16 @@ function App() {
             />
             <Route
               exact
+              path="/event-survey"
+              element={<EventSurvey />}
+            />
+            <Route
+              exact
+              path="/location-survey"
+              element={ <LocationSurvey /> }
+                />
+            <Route
+              exact
               path="/about"
               element={
                 <>
