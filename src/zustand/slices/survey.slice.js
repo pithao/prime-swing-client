@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const createSurveySlice = create((set) => ({
+const surveySlice = (set, get) => ({
   // Dance Survey
   danceForm: {
     anonymous: true,
@@ -240,6 +240,6 @@ const createSurveySlice = create((set) => ({
         locationSafetyExplanation: '',
       },
     })),
-}));
+});
 
-export default createSurveySlice;
+export default surveySlice;

@@ -13,50 +13,41 @@ import {
   Button,
   Typography,
 } from '@mui/material';
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  addDoc, 
+  serverTimestamp 
+} from 'firebase/firestore';
+import { db } from '../../firebase-config'; 
+import useStore from '../../zustand/store';
 
 const LocationSurvey = () => {
-  const [formData, setFormData] = useState({
-    anonymous: true,
-    name: '',
-    email: '',
-    contactPermission: false,
-    dancerRole: '',
-    age: '',
-    gender: '',
-    zipCode: '',
-    locationFeedback: '',
-    locationImprovement: '',
-    locationRecommendations: '',
-    generalComments: '',
-    locationRatings: {
-      buildingSatisfaction: 3,
-      danceFloorSatisfaction: 3,
-      parkingSatisfaction: 3,
-      importanceOfKeepingSameSchedule: 3,
-      importanceOfKeepingSameDanceSchedule: 3,
-      importanceOfKeepingSameEventSchedule: 3,
-    },
-    moveOutsideStPaul: '',
-    locationChallenges: '',
-    locationSafety: '',
-    locationChallengesExplanation: '',
-    locationSafetyExplanation: '',
-  });
+  const {
+    locationForm,
+    setLocationForm,
+    resetLocationForm
+  } = useStore(); 
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    setLocationForm({
+      ...locationForm,
       [name]: type === 'checkbox' ? checked : value,
-    }));
+    });
   };
 
   const handleRatingChange = (section, key, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: { ...prev[section], [key]: value },
-    }));
+    setLocationForm({
+      ...locationForm,
+      [section]: {
+        ...locationForm[section],
+        [key]: value,
+      },
+    });
   };
+  
 
   const formatLabel = (key) => {
     return (
@@ -71,11 +62,23 @@ const LocationSurvey = () => {
   };
   // writing this function almost ruined my life
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
+
+  try {
+    await addDoc(collection(db, 'locationSurveys'), {
+      ...locationForm,
+      timestamp: serverTimestamp(),
+    });
+  
+    // console.log('Form Submitted:', locationForm);
     alert('Survey Submitted! Thank you for your feedback.');
-  };
+    resetLocationForm();
+  } catch(error) {
+    console.error('Error submitting form:', error);
+    alert('There was an error submitting the form.');
+  }
+};
 
   return (
     <Container
@@ -92,20 +95,20 @@ const LocationSurvey = () => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={formData.anonymous}
+              checked={locationForm.anonymous}
               onChange={handleChange}
               name="anonymous"
             />
           }
           label="Would you like to remain anonymous?"
         />
-        {!formData.anonymous && (
+        {!locationForm.anonymous && (
           <>
             <TextField
               fullWidth
               label="Name"
               name="name"
-              value={formData.name}
+              value={locationForm.name}
               onChange={handleChange}
               margin="normal"
             />
@@ -114,14 +117,14 @@ const LocationSurvey = () => {
               label="Email"
               name="email"
               type="email"
-              value={formData.email}
+              value={locationForm.email}
               onChange={handleChange}
               margin="normal"
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={formData.contactPermission}
+                  checked={locationForm.contactPermission}
                   onChange={handleChange}
                   name="contactPermission"
                 />
@@ -134,7 +137,7 @@ const LocationSurvey = () => {
           <InputLabel>Dancer Role</InputLabel>
           <Select
             name="dancerRole"
-            value={formData.dancerRole}
+            value={locationForm.dancerRole}
             onChange={handleChange}
           >
             <MenuItem value="Lead only">Lead only</MenuItem>
@@ -149,13 +152,13 @@ const LocationSurvey = () => {
           label="Age"
           name="age"
           type="number"
-          value={formData.age}
+          value={locationForm.age}
           onChange={handleChange}
           margin="normal"
         />
         <FormControl fullWidth margin="normal">
           <InputLabel>Gender</InputLabel>
-          <Select name="gender" value={formData.gender} onChange={handleChange}>
+          <Select name="gender" value={locationForm.gender} onChange={handleChange}>
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
             <MenuItem value="Non-binary">Non-binary</MenuItem>
@@ -166,7 +169,7 @@ const LocationSurvey = () => {
           fullWidth
           label="Zip Code"
           name="zipCode"
-          value={formData.zipCode}
+          value={locationForm.zipCode}
           onChange={handleChange}
           margin="normal"
         />
@@ -177,7 +180,7 @@ const LocationSurvey = () => {
 
         {/* mt is margin top for Material UI, also for spacing */}
 
-        {Object.keys(formData.locationRatings).map((key) => (
+        {Object.keys(locationForm.locationRatings).map((key) => (
           <FormControl component="fieldset" fullWidth margin="normal" key={key}>
             <Typography>{formatLabel(key)}</Typography>
             <RadioGroup row>
@@ -187,7 +190,7 @@ const LocationSurvey = () => {
                   value={num.toString()}
                   control={
                     <Radio
-                      checked={formData.locationRatings[key] == num}
+                      checked={locationForm.locationRatings[key] == num}
                       onChange={() =>
                         handleRatingChange('locationRatings', key, num)
                       }
@@ -209,7 +212,7 @@ const LocationSurvey = () => {
           name="locationFeedback"
           multiline
           rows={3}
-          value={formData.locationFeedback}
+          value={locationForm.locationFeedback}
           onChange={handleChange}
           margin="normal"
         />
@@ -219,7 +222,7 @@ const LocationSurvey = () => {
           name="locationImprovement"
           multiline
           rows={3}
-          value={formData.locationImprovement}
+          value={locationForm.locationImprovement}
           onChange={handleChange}
           margin="normal"
         />
@@ -229,7 +232,7 @@ const LocationSurvey = () => {
           name="locationRecommendations"
           multiline
           rows={3}
-          value={formData.locationRecommendations}
+          value={locationForm.locationRecommendations}
           onChange={handleChange}
           margin="normal"
         />
@@ -239,7 +242,7 @@ const LocationSurvey = () => {
           name="generalComments"
           multiline
           rows={3}
-          value={formData.generalComments}
+          value={locationForm.generalComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -256,7 +259,7 @@ const LocationSurvey = () => {
           <RadioGroup
             row
             name="moveOutsideStPaul"
-            value={formData.moveOutsideStPaul}
+            value={locationForm.moveOutsideStPaul}
             onChange={handleChange}
           >
             <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -272,20 +275,20 @@ const LocationSurvey = () => {
           <RadioGroup
             row
             name="locationChallenges"
-            value={formData.locationChallenges}
+            value={locationForm.locationChallenges}
             onChange={handleChange}
           >
             <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="No" control={<Radio />} label="No" />
           </RadioGroup>
-          {formData.locationChallenges === 'Yes' && (
+          {locationForm.locationChallenges === 'Yes' && (
             <TextField
               fullWidth
               label="If so, what?"
               name="locationChallengesExplanation"
               multiline
               rows={2}
-              value={formData.locationChallengesExplanation}
+              value={locationForm.locationChallengesExplanation}
               onChange={handleChange}
               margin="normal"
             />
@@ -299,20 +302,20 @@ const LocationSurvey = () => {
           <RadioGroup
             row
             name="locationSafety"
-            value={formData.locationSafety}
+            value={locationForm.locationSafety}
             onChange={handleChange}
           >
             <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="No" control={<Radio />} label="No" />
           </RadioGroup>
-          {formData.locationSafety === 'No' && (
+          {locationForm.locationSafety === 'No' && (
             <TextField
               fullWidth
               label="If not, why not?"
               name="locationSafetyExplanation"
               multiline
               rows={2}
-              value={formData.locationSafetyExplanation}
+              value={locationForm.locationSafetyExplanation}
               onChange={handleChange}
               margin="normal"
             />

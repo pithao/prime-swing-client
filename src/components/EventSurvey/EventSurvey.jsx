@@ -13,54 +13,40 @@ import {
   Button,
   Typography,
 } from '@mui/material';
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  addDoc, 
+  serverTimestamp 
+} from 'firebase/firestore';
+import { db } from '../../firebase-config'; 
+import useStore from '../../zustand/store';
 
-// test change
 
 const EventSurvey = () => {
-  const [formData, setFormData] = useState({
-    anonymous: true,
-    name: '',
-    email: '',
-    contactPermission: false,
-    dancerRole: '',
-    age: '',
-    gender: '',
-    zipCode: '',
-    eventFeedback: '',
-    eventImprovement: '',
-    proComments: '',
-    danceComments: '',
-    workshopComments: '',
-    djComments: '',
-    additionalWorkshops: '',
-    generalComments: '',
-    dancesAttended: '',
-    workshopsAttended: '',
-    eventRatings: {
-      eventSatisfaction: 3,
-      pro: 3,
-      dj: 3,
-      workshop: 3,
-      recommendationLikelihood: 3,
-      workshopSatisfaction: 3,
-      locationSatisfaction: 3,
-      scheduleSatisfaction: 3,
-    },
-  });
+  const {
+    eventForm,
+    setEventForm,
+    resetEventForm
+  } = useStore(); 
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    setEventForm({
+      ...eventForm,
       [name]: type === 'checkbox' ? checked : value,
-    }));
+    });
   };
 
   const handleRatingChange = (section, key, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: { ...prev[section], [key]: value },
-    }));
+    setEventForm({
+      ...eventForm,
+      [section]: {
+        ...eventForm[section],
+        [key]: value,
+      },
+    });
   };
 
   const formatLabel = (key) => {
@@ -76,10 +62,22 @@ const EventSurvey = () => {
   };
   // writing this function almost ruined my life
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
+
+    try {
+      await addDoc(collection(db, 'eventSurveys'), {
+        ...eventForm,
+        timestamp: serverTimestamp(),
+      });
+    
+    // console.log('Form Submitted:', eventForm);
     alert('Survey Submitted! Thank you for your feedback.');
+    resetEventForm();
+    } catch (error) {
+      console.error ('Error submitting form:', error);
+      alert('There was an error submitting the form.');
+    }
   };
 
   return (
@@ -97,20 +95,20 @@ const EventSurvey = () => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={formData.anonymous}
+              checked={eventForm.anonymous}
               onChange={handleChange}
               name="anonymous"
             />
           }
           label="Would you like to remain anonymous?"
         />
-        {!formData.anonymous && (
+        {!eventForm.anonymous && (
           <>
             <TextField
               fullWidth
               label="Name"
               name="name"
-              value={formData.name}
+              value={eventForm.name}
               onChange={handleChange}
               margin="normal"
             />
@@ -119,14 +117,14 @@ const EventSurvey = () => {
               label="Email"
               name="email"
               type="email"
-              value={formData.email}
+              value={eventForm.email}
               onChange={handleChange}
               margin="normal"
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={formData.contactPermission}
+                  checked={eventForm.contactPermission}
                   onChange={handleChange}
                   name="contactPermission"
                 />
@@ -139,7 +137,7 @@ const EventSurvey = () => {
           <InputLabel>Dancer Role</InputLabel>
           <Select
             name="dancerRole"
-            value={formData.dancerRole}
+            value={eventForm.dancerRole}
             onChange={handleChange}
           >
             <MenuItem value="Lead only">Lead only</MenuItem>
@@ -154,13 +152,13 @@ const EventSurvey = () => {
           label="Age"
           name="age"
           type="number"
-          value={formData.age}
+          value={eventForm.age}
           onChange={handleChange}
           margin="normal"
         />
         <FormControl fullWidth margin="normal">
           <InputLabel>Gender</InputLabel>
-          <Select name="gender" value={formData.gender} onChange={handleChange}>
+          <Select name="gender" value={eventForm.gender} onChange={handleChange}>
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
             <MenuItem value="Non-binary">Non-binary</MenuItem>
@@ -171,7 +169,7 @@ const EventSurvey = () => {
           fullWidth
           label="Zip Code"
           name="zipCode"
-          value={formData.zipCode}
+          value={eventForm.zipCode}
           onChange={handleChange}
           margin="normal"
         />
@@ -182,7 +180,7 @@ const EventSurvey = () => {
 
         {/* mt is margin top for Material UI, also for spacing */}
 
-        {Object.keys(formData.eventRatings).map((key) => (
+        {Object.keys(eventForm.eventRatings).map((key) => (
           <FormControl component="fieldset" fullWidth margin="normal" key={key}>
             <Typography>{formatLabel(key)}</Typography>
             <RadioGroup row>
@@ -192,7 +190,7 @@ const EventSurvey = () => {
                   value={num.toString()}
                   control={
                     <Radio
-                      checked={formData.eventRatings[key] == num}
+                      checked={eventForm.eventRatings[key] == num}
                       onChange={() =>
                         handleRatingChange('eventRatings', key, num)
                       }
@@ -214,7 +212,7 @@ const EventSurvey = () => {
           name="eventFeedback"
           multiline
           rows={3}
-          value={formData.eventFeedback}
+          value={eventForm.eventFeedback}
           onChange={handleChange}
           margin="normal"
         />
@@ -224,7 +222,7 @@ const EventSurvey = () => {
           name="eventImprovement"
           multiline
           rows={3}
-          value={formData.eventImprovement}
+          value={eventForm.eventImprovement}
           onChange={handleChange}
           margin="normal"
         />
@@ -234,7 +232,7 @@ const EventSurvey = () => {
           name="proComments"
           multiline
           rows={3}
-          value={formData.proComments}
+          value={eventForm.proComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -244,7 +242,7 @@ const EventSurvey = () => {
           name="danceComments"
           multiline
           rows={3}
-          value={formData.danceComments}
+          value={eventForm.danceComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -254,7 +252,7 @@ const EventSurvey = () => {
           name="workshopComments"
           multiline
           rows={3}
-          value={formData.workshopComments}
+          value={eventForm.workshopComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -264,7 +262,7 @@ const EventSurvey = () => {
           name="djComments"
           multiline
           rows={3}
-          value={formData.djComments}
+          value={eventForm.djComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -274,7 +272,7 @@ const EventSurvey = () => {
           name="additionalWorkshops"
           multiline
           rows={3}
-          value={formData.additionalWorkshops}
+          value={eventForm.additionalWorkshops}
           onChange={handleChange}
           margin="normal"
         />
@@ -284,7 +282,7 @@ const EventSurvey = () => {
           name="generalComments"
           multiline
           rows={3}
-          value={formData.generalComments}
+          value={eventForm.generalComments}
           onChange={handleChange}
           margin="normal"
         />
@@ -294,7 +292,7 @@ const EventSurvey = () => {
           name="dancesAttended"
           multiline
           rows={3}
-          value={formData.dancesAttended}
+          value={eventForm.dancesAttended}
           onChange={handleChange}
           margin="normal"
         />
@@ -304,7 +302,7 @@ const EventSurvey = () => {
           name="workshopsAttended"
           multiline
           rows={3}
-          value={formData.workshopsAttended}
+          value={eventForm.workshopsAttended}
           onChange={handleChange}
           margin="normal"
         />
