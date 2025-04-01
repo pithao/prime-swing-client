@@ -1,7 +1,8 @@
-import { create } from 'zustand';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
 const surveySlice = (set, get) => ({
-  // Dance Survey
+  // -------------------- Dance Survey --------------------
   danceForm: {
     anonymous: true,
     name: '',
@@ -56,7 +57,7 @@ const surveySlice = (set, get) => ({
       },
     })),
 
-  // Class Survey
+  // -------------------- Class Survey --------------------
   classForm: {
     anonymous: true,
     name: '',
@@ -113,7 +114,7 @@ const surveySlice = (set, get) => ({
       },
     })),
 
-  // Event Survey
+  // -------------------- Event Survey --------------------
   eventForm: {
     anonymous: true,
     name: '',
@@ -180,7 +181,7 @@ const surveySlice = (set, get) => ({
       },
     })),
 
-  // Location Survey
+  // -------------------- Location Survey --------------------
   locationForm: {
     anonymous: true,
     name: '',
@@ -240,6 +241,32 @@ const surveySlice = (set, get) => ({
         locationSafetyExplanation: '',
       },
     })),
+
+  // -------------------- Responses & Fetch Functions --------------------
+  danceResponses: [],
+  classResponses: [],
+  eventResponses: [],
+  locationResponses: [],
+
+  fetchDanceResponses: async () => {
+    const snapshot = await getDocs(collection(db, "danceSurvey"));
+    set({ danceResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+  },
+
+  fetchClassResponses: async () => {
+    const snapshot = await getDocs(collection(db, "classSurvey"));
+    set({ classResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+  },
+
+  fetchEventResponses: async () => {
+    const snapshot = await getDocs(collection(db, "eventSurvey"));
+    set({ eventResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+  },
+
+  fetchLocationResponses: async () => {
+    const snapshot = await getDocs(collection(db, "locationSurvey"));
+    set({ locationResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+  },
 });
 
 export default surveySlice;
