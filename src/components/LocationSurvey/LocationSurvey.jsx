@@ -66,7 +66,7 @@ const LocationSurvey = () => {
     e.preventDefault();
 
   try {
-    await addDoc(collection(db, 'locationSurveys'), {
+    await addDoc(collection(db, 'locationSurvey'), {
       ...locationForm,
       timestamp: serverTimestamp(),
     });

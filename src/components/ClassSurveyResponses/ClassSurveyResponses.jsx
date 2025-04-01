@@ -1,5 +1,8 @@
-import { useState, useEffect } from "react";
-import { db } from "../../firebase-config";
+import { useEffect } from "react";
+import useStore from "../../zustand/store";
+
+// import { useState, useEffect } from "react";
+// import { db } from "../../firebase-config";
 import {
   collection,
   getDocs,
@@ -20,23 +23,11 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
 function ClassSurveyResponses() {
-  const [surveys, setSurvey] = useState([]);
-  const userCollectionRef = collection(db, "classSurvey");
-
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-
-  const rows = surveys;
+  const { classResponses, fetchClassResponses } = useStore();
 
   useEffect(() => {
-    const getSurveys = async () => {
-      const data = await getDocs(userCollectionRef);
-
-      setSurvey(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getSurveys();
-  }, []);
+    fetchClassResponses();
+  }, [fetchClassResponses]);
 
   return (
     <Container
@@ -51,21 +42,23 @@ function ClassSurveyResponses() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell align="right">Survey</TableCell>
-              <TableCell align="right">Date</TableCell>
+              <TableCell align="right">Feedback</TableCell>
+              <TableCell align="right">Timestamp</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {classResponses.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.name || "Anonymous"}
                 </TableCell>
-                <TableCell align="right">{row.title}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
+                <TableCell align="right">{row.classFeedback || "N/A"}</TableCell>
+                <TableCell align="right">
+                  {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -76,3 +69,61 @@ function ClassSurveyResponses() {
 }
 
 export default ClassSurveyResponses;
+
+// function ClassSurveyResponses() {
+//   const [surveys, setSurvey] = useState([]);
+//   const userCollectionRef = collection(db, "classSurvey");
+
+//   function createData(name, calories, fat, carbs, protein) {
+//     return { name, calories, fat, carbs, protein };
+//   }
+
+//   const rows = surveys;
+
+//   useEffect(() => {
+//     const getSurveys = async () => {
+//       const data = await getDocs(userCollectionRef);
+
+//       setSurvey(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+//     };
+//     getSurveys();
+//   }, []);
+
+//   return (
+//     <Container
+//       maxWidth="lg"
+//       sx={{ p: 4, bgcolor: "#fff", boxShadow: 3, borderRadius: 2 }}
+//     >
+//       <Typography variant="h5" gutterBottom>
+//         Class Survey Responses
+//       </Typography>
+//       <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
+//         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+//           <TableHead>
+//             <TableRow>
+//               <TableCell>Name</TableCell>
+//               <TableCell align="right">Survey</TableCell>
+//               <TableCell align="right">Date</TableCell>
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {rows.map((row) => (
+//               <TableRow
+//                 key={row.name}
+//                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+//               >
+//                 <TableCell component="th" scope="row">
+//                   {row.name}
+//                 </TableCell>
+//                 <TableCell align="right">{row.title}</TableCell>
+//                 <TableCell align="right">{row.fat}</TableCell>
+//               </TableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+//     </Container>
+//   );
+// }
+
+// export default ClassSurveyResponses;

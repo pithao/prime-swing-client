@@ -65,7 +65,7 @@ const DanceSurvey = () => {
     e.preventDefault();
 
     try {
-      await addDoc(collection(db, 'danceSurveys'), {
+      await addDoc(collection(db, 'danceSurvey'), {
         ...danceForm,
         timestamp: serverTimestamp(),
       });

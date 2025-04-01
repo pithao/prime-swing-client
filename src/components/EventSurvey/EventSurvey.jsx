@@ -66,7 +66,7 @@ const EventSurvey = () => {
     e.preventDefault();
 
     try {
-      await addDoc(collection(db, 'eventSurveys'), {
+      await addDoc(collection(db, 'eventSurvey'), {
         ...eventForm,
         timestamp: serverTimestamp(),
       });
