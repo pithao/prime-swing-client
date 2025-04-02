@@ -79,6 +79,19 @@ const ClassSurvey = () => {
   }
   };
 
+  const userCollectionRef = collection(db, "classSurvey");
+  const addSurvey = async (e) => {
+    e.preventDefault()
+    console.log('Adding a new Class Survey to the DB ', classForm.name )
+    await addDoc(userCollectionRef, {
+      name: classForm.name,
+      anonymous: classForm.anonymous,
+      email: classForm.email,
+      age: classForm.age
+
+    });
+  }
+
   return (
     <Container
       maxWidth="md"
@@ -90,7 +103,7 @@ const ClassSurvey = () => {
 
       {/* gutterBottom adds spacing ebtween this and the form for formatting. nifty. */}
 
-      <form onSubmit={handleSubmit}>
+      <form >
         <FormControlLabel
           control={
             <Checkbox
@@ -272,6 +285,7 @@ const ClassSurvey = () => {
           color="primary"
           fullWidth
           sx={{ mt: 3 }}
+          onClick={addSurvey}
         >
           Submit
         </Button>
