@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useStore from "../../zustand/store";
 
-// import { useState, useEffect } from "react";
 // import { db } from "../../firebase-config";
 import {
   collection,
@@ -24,10 +23,27 @@ import Typography from "@mui/material/Typography";
 
 function ClassSurveyResponses() {
   const { classResponses, fetchClassResponses } = useStore();
+  const [ responseDetail, setResponseDetail ] = useState();
+  const [ docId, setDocId ] = useState()
 
   useEffect(() => {
     fetchClassResponses();
+    function resDetail(){
+  setResponseDetail(
+    classResponses.filter((response) => response.id === "1CcaJGYEU0UoPxHhSgvF")
+    
+  );
+  
+}
   }, [fetchClassResponses]);
+
+function getId(id) {
+
+  setDocId(id)
+  console.log('The documents ID is: ',docId)
+}
+
+  
 
   return (
     <Container
@@ -41,9 +57,10 @@ function ClassSurveyResponses() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
+              <TableCell  >Name</TableCell>
               <TableCell align="right">Feedback</TableCell>
               <TableCell align="right">Timestamp</TableCell>
+              <TableCell align="right">ID</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -52,18 +69,24 @@ function ClassSurveyResponses() {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" onClick={()=>{getId(row.id)}}>
                   {row.name || "Anonymous"}
                 </TableCell>
-                <TableCell align="right">{row.classFeedback || "N/A"}</TableCell>
+                <TableCell align="right">
+                  {row.classFeedback || "N/A"}
+                </TableCell>
                 <TableCell align="right">
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
                 </TableCell>
+                <TableCell align="right">{row.id}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {/* <Typography gutterBottom> */}
+      {/* <pre>{JSON.stringify(responseDetail, null, 2)}</pre> */}
+      {/* </Typography> */}
     </Container>
   );
 }
