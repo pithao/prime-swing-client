@@ -87,7 +87,26 @@ const ClassSurvey = () => {
       name: classForm.name,
       anonymous: classForm.anonymous,
       email: classForm.email,
-      age: classForm.age
+      age: classForm.age,
+      contactPermission: classForm.contactPermission,
+      dacerRole: classForm.dancerRole,
+      gender: classForm.gender,
+      zipCode: classForm.zipCode,
+      classFeedback: classForm.classFeedback,
+      classImprovement: classForm.classImprovement,
+      leadInstructorComments: classForm.leadInstructorComments,
+      followInstructorComments: classForm.followInstructorComments,
+      additionalTopics: classForm.additionalTopics,
+      generalComments: classForm.generalComments,
+      classRatings: {
+        satisfaction: classForm.classRatings.satisfaction,
+        leadInstructor: classForm.classRatings.leadInstructor,
+        followInstructor: classForm.classRatings.followInstructor,
+        retakeLikelihood: classForm.classRatings.retakeLikelihood,
+        materialSatisfaction: classForm.classRatings.materialSatisfaction,
+        locationSatisfaction: classForm.classRatings.locationSatisfaction,
+        scheduleSatisfaction: classForm.classRatings.locationSatisfaction
+      }
 
     });
   }
