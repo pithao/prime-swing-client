@@ -39,8 +39,8 @@ function ClassSurveyResponses() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
-    height: 1000,
+    width: 700,
+    height: 800,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 30,
@@ -120,12 +120,17 @@ async function getId(id) {
                style={{backgroundColor: 'rgba(255, 255, 255, 0.8)'}}
                >
                 <Box sx={style}>
-                <div>
+                  <div>
                     <h3>General Applicant information:</h3>
                     <p>Name: {docInfo.name}</p>
                     <p>Email:{docInfo.email}</p>
                     <p> Age: {docInfo.age}</p>
-                    <p>Contact permission: {docInfo.contactPermission}</p>
+                    { docInfo.contactPermission ? (
+                      <p>Contact permission: Yes</p>
+                      ):(
+                        <p>Contact permission: No</p>
+                      )
+                    }
                     <p>Dancer's Roll: {docInfo.dancerRole}</p>
                     <p>Gender: {docInfo.gender}</p>
                     <p>Zip Code: {docInfo.zipCode}</p>
