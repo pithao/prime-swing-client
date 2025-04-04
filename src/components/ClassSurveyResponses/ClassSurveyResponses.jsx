@@ -109,7 +109,9 @@ async function getId(id) {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-               <button onClick={()=>{getId(row.id)}}>More Info</button>
+              <TableCell>
+                <button onClick={()=>{getId(row.id)}}>More Info</button>
+              </TableCell>
                <Modal
                open={open}
                onClose={handleClose}
