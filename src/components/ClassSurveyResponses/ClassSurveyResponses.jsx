@@ -43,7 +43,7 @@ function ClassSurveyResponses() {
     height: 1000,
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24,
+    boxShadow: 30,
     p: 4,
   };
 
@@ -115,6 +115,7 @@ async function getId(id) {
                onClose={handleClose}
                aria-labelledby="modal-modal-title"
                aria-describedby="modal-modal-description"
+               style={{backgroundColor: 'rgba(255, 255, 255, 0.8)'}}
                >
                 <Box sx={style}>
                 <div>
