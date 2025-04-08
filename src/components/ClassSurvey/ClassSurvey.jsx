@@ -89,7 +89,7 @@ const ClassSurvey = () => {
       email: classForm.email,
       age: classForm.age,
       contactPermission: classForm.contactPermission,
-      dacerRole: classForm.dancerRole,
+      dancerRole: classForm.dancerRole,
       gender: classForm.gender,
       zipCode: classForm.zipCode,
       classFeedback: classForm.classFeedback,
