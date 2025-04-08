@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react';
 import useStore from '../../zustand/store';
 import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
   doc,
-  deleteDoc,
   getDoc,
-  where,
-  query,
 } from 'firebase/firestore';
 
 import { db } from '../../firebase-config';
