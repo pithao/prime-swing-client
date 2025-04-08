@@ -15,6 +15,7 @@ import LocationSurvey from "../LocationSurvey/LocationSurvey";
 import ClassSurveyResponses from "../ClassSurveyResponses/ClassSurveyResponses";
 import DanceSurveyResponses from "../DanceSurveyResponses/DanceSurveyResponses";
 import EventSurveyResponses from "../EventSurveyResponses/EventSurveyResponses";
+import LocationSurveyResponses from "../LocationSurveyResponses/LocationSurveyResponses";
 // import EventFormData from "../EventFormData/EventFormData";
 // import DanceFormData from "../DanceFormData/DanceFormData";
 // import ClassFormData from "../ClassFormData/ClassFormData";
@@ -144,7 +145,7 @@ function App() {
             <Route exact path="/location-survey" element={<LocationSurvey />} />
             <Route exact path="/class-survey-responses" element={<ClassSurveyResponses />}/>
             <Route exact path="/dance-survey-responses" element={<DanceSurveyResponses />}/>
-            {/* <Route exact path="/location-survey-responses" element={<LocationSurveyResponses />}/> */}
+            <Route exact path="/location-survey-responses" element={<LocationSurveyResponses />}/>
             <Route exact path="/event-survey-responses" element={<EventSurveyResponses />}/>
 
 
