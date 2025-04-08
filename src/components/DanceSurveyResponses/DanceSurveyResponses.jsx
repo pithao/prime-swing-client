@@ -124,10 +124,10 @@ function DanceSurveyResponses() {
                 <TableCell>{row.djComments}</TableCell>
                 <TableCell>{row.generalComments}</TableCell>
                 <TableCell>{row.danceRatings?.satisfaction}</TableCell>
-                <TableCell>{row.danceRatings?.leadInstructor}</TableCell>
-                <TableCell>{row.danceRatings?.followInstructor}</TableCell>
-                <TableCell>{row.danceRatings?.retakeLikelihood}</TableCell>
-                <TableCell>{row.danceRatings?.materialSatisfaction}</TableCell>
+                <TableCell>{row.danceRatings?.instructor}</TableCell>
+                <TableCell>{row.danceRatings?.lessonSatisfaction}</TableCell>
+                <TableCell>{row.danceRatings?.recommendationLikelihood}</TableCell>
+                <TableCell>{row.danceRatings?.djSatisfaction}</TableCell>
                 <TableCell>{row.danceRatings?.locationSatisfaction}</TableCell>
                 <TableCell>{row.danceRatings?.scheduleSatisfaction}</TableCell>
               </TableRow>
