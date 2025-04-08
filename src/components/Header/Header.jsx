@@ -25,6 +25,7 @@ const pages = [
   { label: "Event Survey", path: "/event-survey"},
   {label: "Class Survey Responses", path: "/class-survey-responses"},
   {label: "Dance Survey Responses", path: "/dance-survey-responses"},
+  {label: "Event Survey Responses", path: "/event-survey-responses"},
 
 ];
 

@@ -14,9 +14,10 @@ import DanceSurvey from "../DanceSurvey/DanceSurvey";
 import LocationSurvey from "../LocationSurvey/LocationSurvey";
 import ClassSurveyResponses from "../ClassSurveyResponses/ClassSurveyResponses";
 import DanceSurveyResponses from "../DanceSurveyResponses/DanceSurveyResponses";
-import EventFormData from "../EventFormData/EventFormData";
-import DanceFormData from "../DanceFormData/DanceFormData";
-import ClassFormData from "../ClassFormData/ClassFormData";
+import EventSurveyResponses from "../EventSurveyResponses/EventSurveyResponses";
+// import EventFormData from "../EventFormData/EventFormData";
+// import DanceFormData from "../DanceFormData/DanceFormData";
+// import ClassFormData from "../ClassFormData/ClassFormData";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -144,7 +145,7 @@ function App() {
             <Route exact path="/class-survey-responses" element={<ClassSurveyResponses />}/>
             <Route exact path="/dance-survey-responses" element={<DanceSurveyResponses />}/>
             {/* <Route exact path="/location-survey-responses" element={<LocationSurveyResponses />}/> */}
-            {/* <Route exact path="/event-survey-responses" element={<EventSurveyResponses />}/> */}
+            <Route exact path="/event-survey-responses" element={<EventSurveyResponses />}/>
 
 
                       {/* <Route exact path="/classformdata" element= {<ClassFormData/>} />
