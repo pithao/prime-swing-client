@@ -13,6 +13,7 @@ import EventSurvey from "../EventSurvey/EventSurvey";
 import DanceSurvey from "../DanceSurvey/DanceSurvey";
 import LocationSurvey from "../LocationSurvey/LocationSurvey";
 import ClassSurveyResponses from "../ClassSurveyResponses/ClassSurveyResponses";
+import DanceSurveyResponses from "../DanceSurveyResponses/DanceSurveyResponses";
 import EventFormData from "../EventFormData/EventFormData";
 import DanceFormData from "../DanceFormData/DanceFormData";
 import ClassFormData from "../ClassFormData/ClassFormData";
@@ -80,7 +81,7 @@ function App() {
                 )
               }
             />
-            <Route
+            {/* <Route
               exact
               path="/class-survey-responses"
               element={<ClassSurveyResponses />}
@@ -94,7 +95,7 @@ function App() {
               exact
               path="/location-survey"
               element={ <LocationSurvey /> }
-                />
+                /> */}
             <Route
               exact
               path="/about"
@@ -139,10 +140,16 @@ function App() {
             <Route exact path="/class-survey" element={<ClassSurvey />} />
             <Route exact path="/event-survey" element={<EventSurvey />} />
             <Route exact path="/dance-survey" element={<DanceSurvey />} />
-            <Route exact path="/classformdata" element= {<ClassFormData/>} />
-            <Route exact path="/danceformdata" element= {<DanceFormData/>} />
-            <Route exact path="/eventformdata" element={ <EventFormData/> } />
             <Route exact path="/location-survey" element={<LocationSurvey />} />
+            <Route exact path="/class-survey-responses" element={<ClassSurveyResponses />}/>
+            <Route exact path="/dance-survey-responses" element={<DanceSurveyResponses />}/>
+            {/* <Route exact path="/location-survey-responses" element={<LocationSurveyResponses />}/> */}
+            {/* <Route exact path="/event-survey-responses" element={<EventSurveyResponses />}/> */}
+
+
+                      {/* <Route exact path="/classformdata" element= {<ClassFormData/>} />
+            <Route exact path="/danceformdata" element= {<DanceFormData/>} />
+            <Route exact path="/eventformdata" element={ <EventFormData/> } /> */}
             <Route path="*" element={<h2>404 Page</h2>} />
           </Routes>
         </Box>
