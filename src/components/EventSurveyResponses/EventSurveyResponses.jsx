@@ -19,9 +19,9 @@ import Typography from '@mui/material/Typography';
 import { Modal } from '@mui/material';
 import Box from '@mui/material/Box';
 
-function ClassSurveyResponses() {
-  const fetchClassResponses = useStore((state) => state.fetchClassResponses);
-  const classResponses = useStore((state) => state.classResponses);
+function EventSurveyResponses() {
+  const fetchEventResponses = useStore((state) => state.fetchEventResponses);
+  const eventResponses = useStore((state) => state.eventResponses);
 
   const [docId, setDocId] = useState('');
   const [docInfo, setDocInfo] = useState({});
@@ -42,8 +42,8 @@ function ClassSurveyResponses() {
   };
 
   useEffect(() => {
-    fetchClassResponses();
-  }, [fetchClassResponses]);
+    fetchEventResponses();
+  }, [fetchEventResponses]);
 
   const handleClose = () => {
     setOpen(false);
@@ -51,7 +51,7 @@ function ClassSurveyResponses() {
   };
 
   async function getId(id) {
-    const docRef = doc(db, 'classSurvey', id);
+    const docRef = doc(db, 'eventSurvey', id);
     const docSnap = await getDoc(docRef);
 
     if (docId === '') {
@@ -70,7 +70,7 @@ function ClassSurveyResponses() {
       sx={{ p: 4, bgcolor: '#fff', boxShadow: 3, borderRadius: 2 }}
     >
       <Typography variant="h5" gutterBottom>
-        Class Survey Responses
+        Event Survey Responses
       </Typography>
       <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -85,23 +85,28 @@ function ClassSurveyResponses() {
               <TableCell>Dancer's Role</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell>Zip Code</TableCell>
-              <TableCell>Class Feedback</TableCell>
-              <TableCell>Class Improvement</TableCell>
-              <TableCell>Lead Instructor Comments</TableCell>
-              <TableCell>Follow Instructor Comments</TableCell>
-              <TableCell>Additional Topics</TableCell>
+              <TableCell>Event Feedback</TableCell>
+              <TableCell>Event Improvement</TableCell>
+              <TableCell>Pro Comments</TableCell>
+              <TableCell>Dance Comments</TableCell>
+              <TableCell>Workshop Comments</TableCell>
+              <TableCell>DJ Comments</TableCell>
+              <TableCell>Additional Workshops</TableCell>
               <TableCell>General Comments</TableCell>
-              <TableCell>Satisfaction</TableCell>
-              <TableCell>Lead Instructor Rating</TableCell>
-              <TableCell>Follow Instructor Rating</TableCell>
-              <TableCell>Retake Liklihood</TableCell>
-              <TableCell>Material Satisfaction</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Schedule</TableCell>
+              <TableCell>Dances Attended</TableCell>
+              <TableCell>Workshops Attended</TableCell>
+              <TableCell>Event Satisfaction</TableCell>
+              <TableCell>Pro Satisfaction</TableCell>
+              <TableCell>DJ Satisfaction</TableCell>
+              <TableCell>Workshop</TableCell>
+              <TableCell>Recommendation Likelihood</TableCell>
+              <TableCell>Workshop Satisfaction</TableCell>
+              <TableCell>Location </TableCell>
+              <TableCell>Schedule </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {classResponses.map((row) => (
+            {eventResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -119,19 +124,24 @@ function ClassSurveyResponses() {
                 <TableCell>{row.dancerRole}</TableCell>
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.classFeedback}</TableCell>
-                <TableCell>{row.classImprovement}</TableCell>
-                <TableCell>{row.leadInstructorComments}</TableCell>
-                <TableCell>{row.followInstructorComments}</TableCell>
-                <TableCell>{row.additionalTopics}</TableCell>
+                <TableCell>{row.eventFeedback}</TableCell>
+                <TableCell>{row.eventImprovement}</TableCell>
+                <TableCell>{row.proComments}</TableCell>
+                <TableCell>{row.danceComments}</TableCell>
+                <TableCell>{row.workshopComments}</TableCell>
+                <TableCell>{row.djComments}</TableCell> 
+                <TableCell>{row.additionalWorkshops}</TableCell>               
                 <TableCell>{row.generalComments}</TableCell>
-                <TableCell>{row.classRatings?.satisfaction}</TableCell>
-                <TableCell>{row.classRatings?.leadInstructor}</TableCell>
-                <TableCell>{row.classRatings?.followInstructor}</TableCell>
-                <TableCell>{row.classRatings?.retakeLikelihood}</TableCell>
-                <TableCell>{row.classRatings?.materialSatisfaction}</TableCell>
-                <TableCell>{row.classRatings?.locationSatisfaction}</TableCell>
-                <TableCell>{row.classRatings?.scheduleSatisfaction}</TableCell>
+                <TableCell>{row.dancesAttended}</TableCell>
+                <TableCell>{row.workshopsAttended}</TableCell>
+                <TableCell>{row.eventRatings?.eventSatisfaction}</TableCell>
+                <TableCell>{row.eventRatings?.pro}</TableCell>
+                <TableCell>{row.eventRatings?.dj}</TableCell>
+                <TableCell>{row.eventRatings?.workshop}</TableCell>
+                <TableCell>{row.eventRatings?.recommendationLikelihood}</TableCell>
+                <TableCell>{row.eventRatings?.workshopSatisfaction}</TableCell>
+                <TableCell>{row.eventRatings?.locationSatisfaction}</TableCell>
+                <TableCell>{row.eventRatings?.scheduleSatisfaction}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -158,34 +168,41 @@ function ClassSurveyResponses() {
             <p>Gender: {docInfo.gender}</p>
             <p>Zip Code: {docInfo.zipCode}</p>
             <h3>Short Answer Responses</h3>
-            <p>Class Feedback: {docInfo.classFeedback}</p>
-            <p>Class Improvements: {docInfo.classImprovement}</p>
-            <p>Lead Instructor Comments: {docInfo.leadInstructorComments}</p>
+            <p>Dance Feedback: {docInfo.eventFeedback}</p>
+            <p>Dance Improvements: {docInfo.eventImprovement}</p>
+            <p>Lead Instructor Comments: {docInfo.proComments}</p>
+            <p>Lead Instructor Comments: {docInfo.danceComments}</p>
+            <p>Lead Instructor Comments: {docInfo.workshopComments}</p>
             <p>
-              Follow Instructor Comments: {docInfo.followInstructorComments}
+              Follow Instructor Comments: {docInfo.djComments}
             </p>
-            <p>Additional Topics: {docInfo.additionalTopics}</p>
+            <p>Lead Instructor Comments: {docInfo.additionalWorkshops}</p>
             <p>General Comments: {docInfo.generalComments}</p>
-            <h3>Class Ratings</h3>
-            <p>Satisfaction: {docInfo.classRatings?.satisfaction}</p>
+            <p>Lead Instructor Comments: {docInfo.dancesAttended}</p>
+            <p>Lead Instructor Comments: {docInfo.workshopsAttended}</p>
+            <h3>Event Ratings</h3>
+            <p>Satisfaction: {docInfo.eventRatings?.eventSatisfaction}</p>
             <p>
-              Lead Instructor Rating: {docInfo.classRatings?.leadInstructor}
+            Pro Satisfaction: {docInfo.eventRatings?.pro}
             </p>
             <p>
-              Follow Instructor Rating: {docInfo.classRatings?.followInstructor}
+              DJ Satisfaction: {docInfo.eventRatings?.dj}
             </p>
-            <p>Retake Likelihood: {docInfo.classRatings?.retakeLikelihood}</p>
             <p>
-              Material Satisfaction:{' '}
-              {docInfo.classRatings?.materialSatisfaction}
+              Workshop: {docInfo.eventRatings?.workshopComments}
+            </p>
+            <p>Recommendation Likelihood: {docInfo.eventRatings?.recommendationLikelihood}</p>
+            <p>
+             Workshop Satisfaction:{' '}
+              {docInfo.eventRatings?.workshopSatisfaction}
             </p>
             <p>
               Location Satisfaction:{' '}
-              {docInfo.classRatings?.locationSatisfaction}
+              {docInfo.eventRatings?.locationSatisfaction}
             </p>
             <p>
               Schedule Satisfaction:{' '}
-              {docInfo.classRatings?.scheduleSatisfaction}
+              {docInfo.eventRatings?.scheduleSatisfaction}
             </p>
           </div>
         </Box>
@@ -194,5 +211,4 @@ function ClassSurveyResponses() {
   );
 }
 
-export default ClassSurveyResponses;
-
+export default EventSurveyResponses;

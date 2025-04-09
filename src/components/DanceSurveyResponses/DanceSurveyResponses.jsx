@@ -19,9 +19,9 @@ import Typography from '@mui/material/Typography';
 import { Modal } from '@mui/material';
 import Box from '@mui/material/Box';
 
-function ClassSurveyResponses() {
-  const fetchClassResponses = useStore((state) => state.fetchClassResponses);
-  const classResponses = useStore((state) => state.classResponses);
+function DanceSurveyResponses() {
+  const fetchDanceResponses = useStore((state) => state.fetchDanceResponses);
+  const danceResponses = useStore((state) => state.danceResponses);
 
   const [docId, setDocId] = useState('');
   const [docInfo, setDocInfo] = useState({});
@@ -42,8 +42,8 @@ function ClassSurveyResponses() {
   };
 
   useEffect(() => {
-    fetchClassResponses();
-  }, [fetchClassResponses]);
+    fetchDanceResponses();
+  }, [fetchDanceResponses]);
 
   const handleClose = () => {
     setOpen(false);
@@ -51,7 +51,7 @@ function ClassSurveyResponses() {
   };
 
   async function getId(id) {
-    const docRef = doc(db, 'classSurvey', id);
+    const docRef = doc(db, 'danceSurvey', id);
     const docSnap = await getDoc(docRef);
 
     if (docId === '') {
@@ -70,7 +70,7 @@ function ClassSurveyResponses() {
       sx={{ p: 4, bgcolor: '#fff', boxShadow: 3, borderRadius: 2 }}
     >
       <Typography variant="h5" gutterBottom>
-        Class Survey Responses
+        Dance Survey Responses
       </Typography>
       <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -85,23 +85,22 @@ function ClassSurveyResponses() {
               <TableCell>Dancer's Role</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell>Zip Code</TableCell>
-              <TableCell>Class Feedback</TableCell>
-              <TableCell>Class Improvement</TableCell>
-              <TableCell>Lead Instructor Comments</TableCell>
-              <TableCell>Follow Instructor Comments</TableCell>
-              <TableCell>Additional Topics</TableCell>
+              <TableCell>Dance Feedback</TableCell>
+              <TableCell>Dance Improvement</TableCell>
+              <TableCell>Lesson Comments</TableCell>
+              <TableCell>DJ Comments</TableCell>
               <TableCell>General Comments</TableCell>
               <TableCell>Satisfaction</TableCell>
-              <TableCell>Lead Instructor Rating</TableCell>
-              <TableCell>Follow Instructor Rating</TableCell>
-              <TableCell>Retake Liklihood</TableCell>
-              <TableCell>Material Satisfaction</TableCell>
+              <TableCell>Instructor Rating</TableCell>
+              <TableCell>Lesson Satisfaction</TableCell>
+              <TableCell>Recommendation Likelihood</TableCell>
+              <TableCell>DJ Satisfaction</TableCell>
               <TableCell>Location</TableCell>
               <TableCell>Schedule</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {classResponses.map((row) => (
+            {danceResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -119,19 +118,18 @@ function ClassSurveyResponses() {
                 <TableCell>{row.dancerRole}</TableCell>
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.classFeedback}</TableCell>
-                <TableCell>{row.classImprovement}</TableCell>
-                <TableCell>{row.leadInstructorComments}</TableCell>
-                <TableCell>{row.followInstructorComments}</TableCell>
-                <TableCell>{row.additionalTopics}</TableCell>
+                <TableCell>{row.danceFeedback}</TableCell>
+                <TableCell>{row.danceImprovement}</TableCell>
+                <TableCell>{row.lessonComments}</TableCell>
+                <TableCell>{row.djComments}</TableCell>
                 <TableCell>{row.generalComments}</TableCell>
-                <TableCell>{row.classRatings?.satisfaction}</TableCell>
-                <TableCell>{row.classRatings?.leadInstructor}</TableCell>
-                <TableCell>{row.classRatings?.followInstructor}</TableCell>
-                <TableCell>{row.classRatings?.retakeLikelihood}</TableCell>
-                <TableCell>{row.classRatings?.materialSatisfaction}</TableCell>
-                <TableCell>{row.classRatings?.locationSatisfaction}</TableCell>
-                <TableCell>{row.classRatings?.scheduleSatisfaction}</TableCell>
+                <TableCell>{row.danceRatings?.satisfaction}</TableCell>
+                <TableCell>{row.danceRatings?.instructor}</TableCell>
+                <TableCell>{row.danceRatings?.lessonSatisfaction}</TableCell>
+                <TableCell>{row.danceRatings?.recommendationLikelihood}</TableCell>
+                <TableCell>{row.danceRatings?.djSatisfaction}</TableCell>
+                <TableCell>{row.danceRatings?.locationSatisfaction}</TableCell>
+                <TableCell>{row.danceRatings?.scheduleSatisfaction}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -158,34 +156,33 @@ function ClassSurveyResponses() {
             <p>Gender: {docInfo.gender}</p>
             <p>Zip Code: {docInfo.zipCode}</p>
             <h3>Short Answer Responses</h3>
-            <p>Class Feedback: {docInfo.classFeedback}</p>
-            <p>Class Improvements: {docInfo.classImprovement}</p>
-            <p>Lead Instructor Comments: {docInfo.leadInstructorComments}</p>
+            <p>Dance Feedback: {docInfo.danceFeedback}</p>
+            <p>Dance Improvements: {docInfo.danceImprovement}</p>
+            <p>Lead Instructor Comments: {docInfo.lessonComments}</p>
             <p>
-              Follow Instructor Comments: {docInfo.followInstructorComments}
+              Follow Instructor Comments: {docInfo.djComments}
             </p>
-            <p>Additional Topics: {docInfo.additionalTopics}</p>
             <p>General Comments: {docInfo.generalComments}</p>
-            <h3>Class Ratings</h3>
-            <p>Satisfaction: {docInfo.classRatings?.satisfaction}</p>
+            <h3>Dance Ratings</h3>
+            <p>Satisfaction: {docInfo.danceRatings?.satisfaction}</p>
             <p>
-              Lead Instructor Rating: {docInfo.classRatings?.leadInstructor}
+            Instructor Rating: {docInfo.danceRatings?.instructor}
             </p>
             <p>
-              Follow Instructor Rating: {docInfo.classRatings?.followInstructor}
+              Lesson Satisfaction Rating: {docInfo.danceRatings?.lessonSatisfaction}
             </p>
-            <p>Retake Likelihood: {docInfo.classRatings?.retakeLikelihood}</p>
+            <p>Recommendation Likelihood: {docInfo.danceRatings?.recommendationLikelihood}</p>
             <p>
-              Material Satisfaction:{' '}
-              {docInfo.classRatings?.materialSatisfaction}
+              DJ Satisfaction:{' '}
+              {docInfo.danceRatings?.djSatisfaction}
             </p>
             <p>
               Location Satisfaction:{' '}
-              {docInfo.classRatings?.locationSatisfaction}
+              {docInfo.danceRatings?.locationSatisfaction}
             </p>
             <p>
               Schedule Satisfaction:{' '}
-              {docInfo.classRatings?.scheduleSatisfaction}
+              {docInfo.danceRatings?.scheduleSatisfaction}
             </p>
           </div>
         </Box>
@@ -194,5 +191,4 @@ function ClassSurveyResponses() {
   );
 }
 
-export default ClassSurveyResponses;
-
+export default DanceSurveyResponses;

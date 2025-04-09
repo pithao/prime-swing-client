@@ -19,9 +19,9 @@ import Typography from '@mui/material/Typography';
 import { Modal } from '@mui/material';
 import Box from '@mui/material/Box';
 
-function ClassSurveyResponses() {
-  const fetchClassResponses = useStore((state) => state.fetchClassResponses);
-  const classResponses = useStore((state) => state.classResponses);
+function LocationSurveyResponses() {
+  const fetchLocationResponses = useStore((state) => state.fetchLocationResponses);
+  const locationResponses = useStore((state) => state.locationResponses);
 
   const [docId, setDocId] = useState('');
   const [docInfo, setDocInfo] = useState({});
@@ -42,8 +42,8 @@ function ClassSurveyResponses() {
   };
 
   useEffect(() => {
-    fetchClassResponses();
-  }, [fetchClassResponses]);
+    fetchLocationResponses();
+  }, [fetchLocationResponses]);
 
   const handleClose = () => {
     setOpen(false);
@@ -51,7 +51,7 @@ function ClassSurveyResponses() {
   };
 
   async function getId(id) {
-    const docRef = doc(db, 'classSurvey', id);
+    const docRef = doc(db, 'locationSurvey', id);
     const docSnap = await getDoc(docRef);
 
     if (docId === '') {
@@ -70,7 +70,7 @@ function ClassSurveyResponses() {
       sx={{ p: 4, bgcolor: '#fff', boxShadow: 3, borderRadius: 2 }}
     >
       <Typography variant="h5" gutterBottom>
-        Class Survey Responses
+       Location Survey Responses
       </Typography>
       <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -85,23 +85,25 @@ function ClassSurveyResponses() {
               <TableCell>Dancer's Role</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell>Zip Code</TableCell>
-              <TableCell>Class Feedback</TableCell>
-              <TableCell>Class Improvement</TableCell>
-              <TableCell>Lead Instructor Comments</TableCell>
-              <TableCell>Follow Instructor Comments</TableCell>
-              <TableCell>Additional Topics</TableCell>
+              <TableCell>Location Feedback</TableCell>
+              <TableCell>Location Improvement</TableCell>
+              <TableCell>Location Recommendations</TableCell>
               <TableCell>General Comments</TableCell>
-              <TableCell>Satisfaction</TableCell>
-              <TableCell>Lead Instructor Rating</TableCell>
-              <TableCell>Follow Instructor Rating</TableCell>
-              <TableCell>Retake Liklihood</TableCell>
-              <TableCell>Material Satisfaction</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Schedule</TableCell>
+              <TableCell>Building Satisfaction</TableCell>
+              <TableCell>Dance Floor Satisfaction</TableCell>
+              <TableCell>Parking Satisfaction</TableCell>
+              <TableCell>Importance of Keeping Same Schedule</TableCell>
+              <TableCell>Importance of Keeping Same Dance Schedule</TableCell>
+              <TableCell>Importance of Keeping Same Event Schedule</TableCell>
+              <TableCell>Move Outside St. Paul?</TableCell>
+              <TableCell>Location Challenges</TableCell>
+              <TableCell>Location Safety</TableCell>
+              <TableCell>Location Challenges Explanation</TableCell>
+              <TableCell>Location Safety Explanation</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {classResponses.map((row) => (
+            {locationResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -119,19 +121,21 @@ function ClassSurveyResponses() {
                 <TableCell>{row.dancerRole}</TableCell>
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.classFeedback}</TableCell>
-                <TableCell>{row.classImprovement}</TableCell>
-                <TableCell>{row.leadInstructorComments}</TableCell>
-                <TableCell>{row.followInstructorComments}</TableCell>
-                <TableCell>{row.additionalTopics}</TableCell>
+                <TableCell>{row.locationFeedback}</TableCell>
+                <TableCell>{row.locationImprovement}</TableCell>
+                <TableCell>{row.locationRecommendations}</TableCell>
                 <TableCell>{row.generalComments}</TableCell>
-                <TableCell>{row.classRatings?.satisfaction}</TableCell>
-                <TableCell>{row.classRatings?.leadInstructor}</TableCell>
-                <TableCell>{row.classRatings?.followInstructor}</TableCell>
-                <TableCell>{row.classRatings?.retakeLikelihood}</TableCell>
-                <TableCell>{row.classRatings?.materialSatisfaction}</TableCell>
-                <TableCell>{row.classRatings?.locationSatisfaction}</TableCell>
-                <TableCell>{row.classRatings?.scheduleSatisfaction}</TableCell>
+                <TableCell>{row.locationRatings?.buildingSatisfaction}</TableCell>
+                <TableCell>{row.locationRatings?.danceFloorSatisfaction}</TableCell>
+                <TableCell>{row.locationRatings?.parkingSatisfaction}</TableCell>
+                <TableCell>{row.locationRatings?.importanceOfKeepingSameSchedule}</TableCell>
+                <TableCell>{row.locationRatings?.importanceOfKeepingSameDanceSchedule}</TableCell>
+                <TableCell>{row.locationRatings?.importanceOfKeepingSameEventSchedule}</TableCell>
+                <TableCell>{row.moveOutsideStPaul}</TableCell>
+                <TableCell>{row.locationChallenges}</TableCell>
+                <TableCell>{row.locationSafety}</TableCell>
+                <TableCell>{row.locationChallengesExplanation}</TableCell>
+                <TableCell>{row.locationSafetyExplanation}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -147,7 +151,7 @@ function ClassSurveyResponses() {
       >
         <Box sx={style}>
           <div>
-            <h3>General Applicant Information</h3>
+            <h3>General Information</h3>
             <p>Name: {docInfo.name}</p>
             <p>Email: {docInfo.email}</p>
             <p>Age: {docInfo.age}</p>
@@ -158,34 +162,44 @@ function ClassSurveyResponses() {
             <p>Gender: {docInfo.gender}</p>
             <p>Zip Code: {docInfo.zipCode}</p>
             <h3>Short Answer Responses</h3>
-            <p>Class Feedback: {docInfo.classFeedback}</p>
-            <p>Class Improvements: {docInfo.classImprovement}</p>
-            <p>Lead Instructor Comments: {docInfo.leadInstructorComments}</p>
-            <p>
-              Follow Instructor Comments: {docInfo.followInstructorComments}
-            </p>
-            <p>Additional Topics: {docInfo.additionalTopics}</p>
+            <p>Dance Feedback: {docInfo.locationFeedback}</p>
+            <p>Dance Improvements: {docInfo.locationImprovement}</p>
+            <p>Location Improvement Comments: {docInfo.locationImprovement}</p>
+            <p>Location Recommendations: {docInfo.locationRecommendations}</p>
             <p>General Comments: {docInfo.generalComments}</p>
-            <h3>Class Ratings</h3>
-            <p>Satisfaction: {docInfo.classRatings?.satisfaction}</p>
+            <h3>Location Ratings</h3>
+            <p>Building Satisfaction: {docInfo.locationRatings?.buildingSatisfaction}</p>
             <p>
-              Lead Instructor Rating: {docInfo.classRatings?.leadInstructor}
+            Dance Floor Satisfaction: {docInfo.locationRatings?.danceFloorSatisfaction}
             </p>
             <p>
-              Follow Instructor Rating: {docInfo.classRatings?.followInstructor}
-            </p>
-            <p>Retake Likelihood: {docInfo.classRatings?.retakeLikelihood}</p>
-            <p>
-              Material Satisfaction:{' '}
-              {docInfo.classRatings?.materialSatisfaction}
+            Parking Satisfaction: {docInfo.locationRatings?.parkingSatisfaction}
             </p>
             <p>
-              Location Satisfaction:{' '}
-              {docInfo.classRatings?.locationSatisfaction}
+            Importance of Keeping Same Schedule: {docInfo.locationRatings?.importanceOfKeepingSameSchedule}
+            </p>
+            <p>Importance of Keeping Same Dance Schedule: {docInfo.locationRatings?.importanceOfKeepingSameDanceSchedule}</p>
+            <p>
+            Importance of Keeping Same Event Schedule:{' '}
+              {docInfo.locationRatings?.importanceOfKeepingSameEventSchedule}
             </p>
             <p>
-              Schedule Satisfaction:{' '}
-              {docInfo.classRatings?.scheduleSatisfaction}
+            Move Outside of St Paul?:{' '}
+              {docInfo.moveOutsideStPaul}
+            </p>
+            <p>
+            Location Challenges:{' '}
+              {docInfo.locationChallenges}
+            </p>
+            <p>
+            Location Safety:{' '}
+              {docInfo.locationSafety}
+            </p>
+            <p>
+            Location Challenges Explanation: {docInfo.locationChallengesExplanation}
+            </p>
+            <p>
+            Location Safety Explanation: {docInfo.locationSafetyExplanation}
             </p>
           </div>
         </Box>
@@ -194,5 +208,4 @@ function ClassSurveyResponses() {
   );
 }
 
-export default ClassSurveyResponses;
-
+export default LocationSurveyResponses;

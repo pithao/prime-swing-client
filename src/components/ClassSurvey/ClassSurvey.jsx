@@ -15,8 +15,6 @@ import {
 } from '@mui/material';
 import { 
   collection, 
-  getDocs, 
-  doc, 
   addDoc, 
   serverTimestamp 
 } from 'firebase/firestore';
@@ -65,7 +63,7 @@ const ClassSurvey = () => {
     e.preventDefault();
 
     try {
-      await addDoc(collection(db, 'classSurveys'), {
+      await addDoc(collection(db, 'classSurvey'), {
         ...classForm,
         timestamp: serverTimestamp(),
       });
@@ -79,38 +77,6 @@ const ClassSurvey = () => {
   }
   };
 
-  const userCollectionRef = collection(db, "classSurvey");
-  const addSurvey = async (e) => {
-    e.preventDefault()
-    console.log('Adding a new Class Survey to the DB ', classForm.name )
-    await addDoc(userCollectionRef, {
-      name: classForm.name,
-      anonymous: classForm.anonymous,
-      email: classForm.email,
-      age: classForm.age,
-      contactPermission: classForm.contactPermission,
-      dancerRole: classForm.dancerRole,
-      gender: classForm.gender,
-      zipCode: classForm.zipCode,
-      classFeedback: classForm.classFeedback,
-      classImprovement: classForm.classImprovement,
-      leadInstructorComments: classForm.leadInstructorComments,
-      followInstructorComments: classForm.followInstructorComments,
-      additionalTopics: classForm.additionalTopics,
-      generalComments: classForm.generalComments,
-      classRatings: {
-        satisfaction: classForm.classRatings.satisfaction,
-        leadInstructor: classForm.classRatings.leadInstructor,
-        followInstructor: classForm.classRatings.followInstructor,
-        retakeLikelihood: classForm.classRatings.retakeLikelihood,
-        materialSatisfaction: classForm.classRatings.materialSatisfaction,
-        locationSatisfaction: classForm.classRatings.locationSatisfaction,
-        scheduleSatisfaction: classForm.classRatings.locationSatisfaction
-      }
-
-    });
-  }
-
   return (
     <Container
       maxWidth="md"
@@ -122,7 +88,7 @@ const ClassSurvey = () => {
 
       {/* gutterBottom adds spacing ebtween this and the form for formatting. nifty. */}
 
-      <form >
+      <form onSubmit={handleSubmit} >
         <FormControlLabel
           control={
             <Checkbox
@@ -304,7 +270,6 @@ const ClassSurvey = () => {
           color="primary"
           fullWidth
           sx={{ mt: 3 }}
-          onClick={addSurvey}
         >
           Submit
         </Button>
