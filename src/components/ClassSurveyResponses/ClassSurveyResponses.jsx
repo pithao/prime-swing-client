@@ -30,18 +30,10 @@ function ClassSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [isTrue, setIsTrue] = useState(false);
   const [docInfo, setDocInfo] = useState({});
+  
   useEffect(() => {
-    if (role !== "admin") {
-      // If not admin, restrict access and exit
-      return;
-    }
-    fetchClassResponses();
-    function resDetail() {
-      setResponseDetail(
-        classResponses.filter(
-          (response) => response.id === "1CcaJGYEU0UoPxHhSgvF"
-        )
-      );
+    if (role === "admin") {
+      fetchClassResponses();
     }
   }, [fetchClassResponses, role]);
 
@@ -61,7 +53,9 @@ function ClassSurveyResponses() {
 
     //Dakodah almost died writing this function...
   }
-
+  if (role !== "admin") {
+    return <p style={{ padding: "16px", color: "red" }}>You do not have permission to view this page.</p>;
+  }
   return (
     <Container
       maxWidth="xl"
