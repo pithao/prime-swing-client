@@ -5,7 +5,6 @@ import useStore from "../../zustand/store";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import HomePage from "../HomePage/HomePage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import ClassSurvey from "../ClassSurvey/ClassSurvey";
@@ -24,6 +23,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 function App() {
   const user = useStore((state) => state.user);
+  const role = useStore((state) => state.role);
   const fetchUser = useStore((state) => state.fetchUser);
 
   const theme = createTheme({
@@ -47,37 +47,23 @@ function App() {
         <Header />
         <Box component="main" style={{ marginTop: "3rem", padding: "0 .5rem" }}>
           <Routes>
-            <Route
-              exact
-              path="/"
-              element={
-                user.id ? (
-                  <HomePage /> // Render HomePage for authenticated user.
-                ) : (
-                  <Navigate to="/login" replace /> // Redirect unauthenticated user.
-                )
-              }
-            />
+           
             <Route
               exact
               path="/login"
               element={
-                user.id ? (
-                  <Navigate to="/" replace /> // Redirect authenticated user.
-                ) : (
+                
                   <LoginPage /> // Render LoginPage for unauthenticated user.
-                )
+                
               }
             />
             <Route
               exact
               path="/registration"
               element={
-                user.id ? (
-                  <Navigate to="/" replace /> // Redirect authenticated user.
-                ) : (
+                
                   <RegisterPage /> // Render RegisterPage for unauthenticated user.
-                )
+                
               }
             />
             <Route
