@@ -25,12 +25,16 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { db } from "../../firebase-config";
 function ClassSurveyResponses() {
-  const { classResponses, fetchClassResponses } = useStore();
+  const { classResponses, fetchClassResponses, role } = useStore();
   const [responseDetail, setResponseDetail] = useState();
   const [docId, setDocId] = useState("");
   const [isTrue, setIsTrue] = useState(false);
   const [docInfo, setDocInfo] = useState({});
   useEffect(() => {
+    if (role !== "admin") {
+      // If not admin, restrict access and exit
+      return;
+    }
     fetchClassResponses();
     function resDetail() {
       setResponseDetail(
@@ -39,7 +43,7 @@ function ClassSurveyResponses() {
         )
       );
     }
-  }, [fetchClassResponses]);
+  }, [fetchClassResponses, role]);
 
   async function getId(id) {
     const docRef = doc(db, "classSurvey", id);
