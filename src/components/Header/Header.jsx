@@ -6,28 +6,37 @@ import useStore from "../../zustand/store";
 // https://mui.com/material-ui/react-app-bar/#app-bar-with-responsive-menu
 
 import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 const pages = [
-  { label: "Class Survey", path: "/class-survey" },
-  { label: "Dance Survey", path: "/dance-survey" },
-  { label: "Location Survey", path: "/location-survey"},
-  { label: "Event Survey", path: "/event-survey"},
-  {label: "Class Survey Responses", path: "/class-survey-responses"},
-  {label: "Dance Survey Responses", path: "/dance-survey-responses"},
-  {label: "Event Survey Responses", path: "/event-survey-responses"},
-  {label: "Location Survey Responses", path: "/location-survey-responses"},
-
+  {
+    label: "Surveys",
+    subpages: [
+      { label: "Class Survey", path: "/class-survey" },
+      { label: "Dance Survey", path: "/dance-survey" },
+      { label: "Location Survey", path: "/location-survey" },
+      { label: "Event Survey", path: "/event-survey" },
+    ],
+  },
+  {
+    label: "Responses",
+    subpages: [
+      { label: "Class Responses", path: "/class-survey-responses" },
+      { label: "Dance Responses", path: "/dance-survey-responses" },
+      { label: "Event Responses", path: "/event-survey-responses" },
+      { label: "Location Responses", path: "/location-survey-responses" },
+    ],
+  },
 ];
 
 const settings = ["Dashboard", "Logout"];
@@ -68,13 +77,11 @@ function Header() {
               display: { xs: "none", md: "flex" },
             }}
           >
-            <Link to="/">
-              <img
-                src="/images/rebels-logo.png"
-                style={{ width: "7rem", padding: "1rem" }}
-                alt="Twin Cities Rebels Swing Dance Club"
-              />
-            </Link>
+            <img
+              src="/images/rebels-logo.png"
+              style={{ width: "7rem", padding: "1rem" }}
+              alt="Twin Cities Rebels Swing Dance Club"
+            />
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
