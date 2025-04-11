@@ -1,80 +1,86 @@
-import { useEffect, useState } from 'react';
-import useStore from '../../zustand/store';
-import {
-  doc,
-  getDoc,
-} from 'firebase/firestore';
+import { useEffect, useState } from "react";
+import useStore from "../../zustand/store";
+import { doc, getDoc } from "firebase/firestore";
 
-import { db } from '../../firebase-config';
+import { db } from "../../firebase-config";
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import { Modal } from '@mui/material';
-import Box from '@mui/material/Box';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import { Modal } from "@mui/material";
+import Box from "@mui/material/Box";
 
 function EventSurveyResponses() {
   const fetchEventResponses = useStore((state) => state.fetchEventResponses);
   const eventResponses = useStore((state) => state.eventResponses);
   const exportSurveyToCSV = useStore((state) => state.exportSurveyToCSV);
-
-  const [docId, setDocId] = useState('');
+  const user = useStore((state) => state.user);
+  const role = useStore((state) => state.role);
+  const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 700,
     height: 800,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    bgcolor: "background.paper",
+    border: "2px solid #000",
     boxShadow: 30,
     p: 4,
-    overflow: 'auto',
+    overflow: "auto",
   };
 
   useEffect(() => {
-    fetchEventResponses();
-  }, [fetchEventResponses]);
+    if (role === "admin") {
+      fetchEventResponses();
+    }
+  }, [role, fetchEventResponses]);
 
   const handleClose = () => {
     setOpen(false);
-    setDocId('');
+    setDocId("");
   };
 
   async function getId(id) {
-    const docRef = doc(db, 'eventSurvey', id);
+    const docRef = doc(db, "eventSurvey", id);
     const docSnap = await getDoc(docRef);
 
-    if (docId === '') {
+    if (docId === "") {
       setOpen(true);
       setDocId(id);
       setDocInfo(docSnap.data());
     } else {
-      setDocId('');
+      setDocId("");
       setDocInfo({});
     }
   }
+  if (!user) return <h3>You must be logged in to view this page.</h3>;
+  if (role === null) return <h3>Loading permissions...</h3>;
+  if (role !== "admin")
+    return (
+      <h3>Access denied. You do not have permission to view this page.</h3>
+    );
 
   return (
     <Container
       maxWidth="xl"
-      sx={{ p: 4, bgcolor: '#fff', boxShadow: 3, borderRadius: 2 }}
+      sx={{ p: 4, bgcolor: "#fff", boxShadow: 3, borderRadius: 2 }}
     >
       <Typography variant="h5" gutterBottom>
         Event Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV('event')}>Export to CSV</button>
-      <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
+      <button onClick={() => exportSurveyToCSV("event")}>Export to CSV</button>
+      <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -111,18 +117,18 @@ function EventSurveyResponses() {
             {eventResponses.map((row) => (
               <TableRow
                 key={row.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>
                   <button onClick={() => getId(row.id)}>More Info</button>
                 </TableCell>
                 <TableCell>
-                  {row.timestamp?.toDate?.().toLocaleString?.() || '—'}
+                  {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
                 </TableCell>
-                <TableCell>{row.name || 'Anonymous'}</TableCell>
+                <TableCell>{row.name || "Anonymous"}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.age}</TableCell>
-                <TableCell>{row.contactPermission ? 'Yes' : 'No'}</TableCell>
+                <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
                 <TableCell>{row.dancerRole}</TableCell>
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
@@ -131,8 +137,8 @@ function EventSurveyResponses() {
                 <TableCell>{row.proComments}</TableCell>
                 <TableCell>{row.danceComments}</TableCell>
                 <TableCell>{row.workshopComments}</TableCell>
-                <TableCell>{row.djComments}</TableCell> 
-                <TableCell>{row.additionalWorkshops}</TableCell>               
+                <TableCell>{row.djComments}</TableCell>
+                <TableCell>{row.additionalWorkshops}</TableCell>
                 <TableCell>{row.generalComments}</TableCell>
                 <TableCell>{row.dancesAttended}</TableCell>
                 <TableCell>{row.workshopsAttended}</TableCell>
@@ -140,7 +146,9 @@ function EventSurveyResponses() {
                 <TableCell>{row.eventRatings?.pro}</TableCell>
                 <TableCell>{row.eventRatings?.dj}</TableCell>
                 <TableCell>{row.eventRatings?.workshop}</TableCell>
-                <TableCell>{row.eventRatings?.recommendationLikelihood}</TableCell>
+                <TableCell>
+                  {row.eventRatings?.recommendationLikelihood}
+                </TableCell>
                 <TableCell>{row.eventRatings?.workshopSatisfaction}</TableCell>
                 <TableCell>{row.eventRatings?.locationSatisfaction}</TableCell>
                 <TableCell>{row.eventRatings?.scheduleSatisfaction}</TableCell>
@@ -155,7 +163,7 @@ function EventSurveyResponses() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
       >
         <Box sx={style}>
           <div>
@@ -164,7 +172,7 @@ function EventSurveyResponses() {
             <p>Email: {docInfo.email}</p>
             <p>Age: {docInfo.age}</p>
             <p>
-              Contact permission: {docInfo.contactPermission ? 'Yes' : 'No'}
+              Contact permission: {docInfo.contactPermission ? "Yes" : "No"}
             </p>
             <p>Dancer's Role: {docInfo.dancerRole}</p>
             <p>Gender: {docInfo.gender}</p>
@@ -175,35 +183,30 @@ function EventSurveyResponses() {
             <p>Lead Instructor Comments: {docInfo.proComments}</p>
             <p>Lead Instructor Comments: {docInfo.danceComments}</p>
             <p>Lead Instructor Comments: {docInfo.workshopComments}</p>
-            <p>
-              Follow Instructor Comments: {docInfo.djComments}
-            </p>
+            <p>Follow Instructor Comments: {docInfo.djComments}</p>
             <p>Lead Instructor Comments: {docInfo.additionalWorkshops}</p>
             <p>General Comments: {docInfo.generalComments}</p>
             <p>Lead Instructor Comments: {docInfo.dancesAttended}</p>
             <p>Lead Instructor Comments: {docInfo.workshopsAttended}</p>
             <h3>Event Ratings</h3>
             <p>Satisfaction: {docInfo.eventRatings?.eventSatisfaction}</p>
+            <p>Pro Satisfaction: {docInfo.eventRatings?.pro}</p>
+            <p>DJ Satisfaction: {docInfo.eventRatings?.dj}</p>
+            <p>Workshop: {docInfo.eventRatings?.workshopComments}</p>
             <p>
-            Pro Satisfaction: {docInfo.eventRatings?.pro}
+              Recommendation Likelihood:{" "}
+              {docInfo.eventRatings?.recommendationLikelihood}
             </p>
             <p>
-              DJ Satisfaction: {docInfo.eventRatings?.dj}
-            </p>
-            <p>
-              Workshop: {docInfo.eventRatings?.workshopComments}
-            </p>
-            <p>Recommendation Likelihood: {docInfo.eventRatings?.recommendationLikelihood}</p>
-            <p>
-             Workshop Satisfaction:{' '}
+              Workshop Satisfaction:{" "}
               {docInfo.eventRatings?.workshopSatisfaction}
             </p>
             <p>
-              Location Satisfaction:{' '}
+              Location Satisfaction:{" "}
               {docInfo.eventRatings?.locationSatisfaction}
             </p>
             <p>
-              Schedule Satisfaction:{' '}
+              Schedule Satisfaction:{" "}
               {docInfo.eventRatings?.scheduleSatisfaction}
             </p>
           </div>

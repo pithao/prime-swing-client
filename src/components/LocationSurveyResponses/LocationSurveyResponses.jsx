@@ -1,80 +1,90 @@
-import { useEffect, useState } from 'react';
-import useStore from '../../zustand/store';
-import {
-  doc,
-  getDoc,
-} from 'firebase/firestore';
+import { useEffect, useState } from "react";
+import useStore from "../../zustand/store";
+import { doc, getDoc } from "firebase/firestore";
 
-import { db } from '../../firebase-config';
+import { db } from "../../firebase-config";
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import { Modal } from '@mui/material';
-import Box from '@mui/material/Box';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import { Modal } from "@mui/material";
+import Box from "@mui/material/Box";
 
 function LocationSurveyResponses() {
-  const fetchLocationResponses = useStore((state) => state.fetchLocationResponses);
+  const fetchLocationResponses = useStore(
+    (state) => state.fetchLocationResponses
+  );
   const locationResponses = useStore((state) => state.locationResponses);
   const exportSurveyToCSV = useStore((state) => state.exportSurveyToCSV);
-
-  const [docId, setDocId] = useState('');
+  const user = useStore((state) => state.user);
+  const role = useStore((state) => state.role);
+  const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 700,
     height: 800,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    bgcolor: "background.paper",
+    border: "2px solid #000",
     boxShadow: 30,
     p: 4,
-    overflow: 'auto',
+    overflow: "auto",
   };
 
   useEffect(() => {
-    fetchLocationResponses();
-  }, [fetchLocationResponses]);
+    if (role === "admin") {
+      fetchLocationResponses();
+    }
+  }, [role, fetchLocationResponses]);
 
   const handleClose = () => {
     setOpen(false);
-    setDocId('');
+    setDocId("");
   };
 
   async function getId(id) {
-    const docRef = doc(db, 'locationSurvey', id);
+    const docRef = doc(db, "locationSurvey", id);
     const docSnap = await getDoc(docRef);
 
-    if (docId === '') {
+    if (docId === "") {
       setOpen(true);
       setDocId(id);
       setDocInfo(docSnap.data());
     } else {
-      setDocId('');
+      setDocId("");
       setDocInfo({});
     }
   }
+  if (!user) return <h3>You must be logged in to view this page.</h3>;
+  if (role === null) return <h3>Loading permissions...</h3>;
+  if (role !== "admin")
+    return (
+      <h3>Access denied. You do not have permission to view this page.</h3>
+    );
 
   return (
     <Container
       maxWidth="xl"
-      sx={{ p: 4, bgcolor: '#fff', boxShadow: 3, borderRadius: 2 }}
+      sx={{ p: 4, bgcolor: "#fff", boxShadow: 3, borderRadius: 2 }}
     >
       <Typography variant="h5" gutterBottom>
-       Location Survey Responses
+        Location Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV('location')}>Export to CSV</button>
-      <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
+      <button onClick={() => exportSurveyToCSV("location")}>
+        Export to CSV
+      </button>
+      <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -108,18 +118,18 @@ function LocationSurveyResponses() {
             {locationResponses.map((row) => (
               <TableRow
                 key={row.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>
                   <button onClick={() => getId(row.id)}>More Info</button>
                 </TableCell>
                 <TableCell>
-                  {row.timestamp?.toDate?.().toLocaleString?.() || '—'}
+                  {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
                 </TableCell>
-                <TableCell>{row.name || 'Anonymous'}</TableCell>
+                <TableCell>{row.name || "Anonymous"}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.age}</TableCell>
-                <TableCell>{row.contactPermission ? 'Yes' : 'No'}</TableCell>
+                <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
                 <TableCell>{row.dancerRole}</TableCell>
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
@@ -127,12 +137,24 @@ function LocationSurveyResponses() {
                 <TableCell>{row.locationImprovement}</TableCell>
                 <TableCell>{row.locationRecommendations}</TableCell>
                 <TableCell>{row.generalComments}</TableCell>
-                <TableCell>{row.locationRatings?.buildingSatisfaction}</TableCell>
-                <TableCell>{row.locationRatings?.danceFloorSatisfaction}</TableCell>
-                <TableCell>{row.locationRatings?.parkingSatisfaction}</TableCell>
-                <TableCell>{row.locationRatings?.importanceOfKeepingSameSchedule}</TableCell>
-                <TableCell>{row.locationRatings?.importanceOfKeepingSameDanceSchedule}</TableCell>
-                <TableCell>{row.locationRatings?.importanceOfKeepingSameEventSchedule}</TableCell>
+                <TableCell>
+                  {row.locationRatings?.buildingSatisfaction}
+                </TableCell>
+                <TableCell>
+                  {row.locationRatings?.danceFloorSatisfaction}
+                </TableCell>
+                <TableCell>
+                  {row.locationRatings?.parkingSatisfaction}
+                </TableCell>
+                <TableCell>
+                  {row.locationRatings?.importanceOfKeepingSameSchedule}
+                </TableCell>
+                <TableCell>
+                  {row.locationRatings?.importanceOfKeepingSameDanceSchedule}
+                </TableCell>
+                <TableCell>
+                  {row.locationRatings?.importanceOfKeepingSameEventSchedule}
+                </TableCell>
                 <TableCell>{row.moveOutsideStPaul}</TableCell>
                 <TableCell>{row.locationChallenges}</TableCell>
                 <TableCell>{row.locationSafety}</TableCell>
@@ -149,7 +171,7 @@ function LocationSurveyResponses() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
       >
         <Box sx={style}>
           <div>
@@ -158,7 +180,7 @@ function LocationSurveyResponses() {
             <p>Email: {docInfo.email}</p>
             <p>Age: {docInfo.age}</p>
             <p>
-              Contact permission: {docInfo.contactPermission ? 'Yes' : 'No'}
+              Contact permission: {docInfo.contactPermission ? "Yes" : "No"}
             </p>
             <p>Dancer's Role: {docInfo.dancerRole}</p>
             <p>Gender: {docInfo.gender}</p>
@@ -170,38 +192,39 @@ function LocationSurveyResponses() {
             <p>Location Recommendations: {docInfo.locationRecommendations}</p>
             <p>General Comments: {docInfo.generalComments}</p>
             <h3>Location Ratings</h3>
-            <p>Building Satisfaction: {docInfo.locationRatings?.buildingSatisfaction}</p>
             <p>
-            Dance Floor Satisfaction: {docInfo.locationRatings?.danceFloorSatisfaction}
+              Building Satisfaction:{" "}
+              {docInfo.locationRatings?.buildingSatisfaction}
             </p>
             <p>
-            Parking Satisfaction: {docInfo.locationRatings?.parkingSatisfaction}
+              Dance Floor Satisfaction:{" "}
+              {docInfo.locationRatings?.danceFloorSatisfaction}
             </p>
             <p>
-            Importance of Keeping Same Schedule: {docInfo.locationRatings?.importanceOfKeepingSameSchedule}
+              Parking Satisfaction:{" "}
+              {docInfo.locationRatings?.parkingSatisfaction}
             </p>
-            <p>Importance of Keeping Same Dance Schedule: {docInfo.locationRatings?.importanceOfKeepingSameDanceSchedule}</p>
             <p>
-            Importance of Keeping Same Event Schedule:{' '}
+              Importance of Keeping Same Schedule:{" "}
+              {docInfo.locationRatings?.importanceOfKeepingSameSchedule}
+            </p>
+            <p>
+              Importance of Keeping Same Dance Schedule:{" "}
+              {docInfo.locationRatings?.importanceOfKeepingSameDanceSchedule}
+            </p>
+            <p>
+              Importance of Keeping Same Event Schedule:{" "}
               {docInfo.locationRatings?.importanceOfKeepingSameEventSchedule}
             </p>
+            <p>Move Outside of St Paul?: {docInfo.moveOutsideStPaul}</p>
+            <p>Location Challenges: {docInfo.locationChallenges}</p>
+            <p>Location Safety: {docInfo.locationSafety}</p>
             <p>
-            Move Outside of St Paul?:{' '}
-              {docInfo.moveOutsideStPaul}
+              Location Challenges Explanation:{" "}
+              {docInfo.locationChallengesExplanation}
             </p>
             <p>
-            Location Challenges:{' '}
-              {docInfo.locationChallenges}
-            </p>
-            <p>
-            Location Safety:{' '}
-              {docInfo.locationSafety}
-            </p>
-            <p>
-            Location Challenges Explanation: {docInfo.locationChallengesExplanation}
-            </p>
-            <p>
-            Location Safety Explanation: {docInfo.locationSafetyExplanation}
+              Location Safety Explanation: {docInfo.locationSafetyExplanation}
             </p>
           </div>
         </Box>
