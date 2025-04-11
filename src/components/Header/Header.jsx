@@ -120,11 +120,33 @@ function Header() {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>
+                <Box key={page.label}>
+                  {/* Main menu item */}
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      pl: 2,
+                      backgroundColor: "black",
+                      color: "white",
+                      padding: ".5rem",
+                    }}
+                  >
                     {page.label}
                   </Typography>
-                </MenuItem>
+
+                  {/* Submenu for subpages */}
+                  {page.subpages.map((subpage) => (
+                    <MenuItem
+                      key={subpage.label}
+                      component={Link}
+                      to={subpage.path}
+                      onClick={handleCloseNavMenu}
+                      sx={{ pl: 4 }} // Add padding for indentation
+                    >
+                      {subpage.label}
+                    </MenuItem>
+                  ))}
+                </Box>
               ))}
             </Menu>
           </Box>
