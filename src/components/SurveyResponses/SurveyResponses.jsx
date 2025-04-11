@@ -2,9 +2,25 @@ import "./SurveyResponses.css"
 import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material";
 
-
+import useStore from "../../zustand/store";
 function SurveyResponses() {
-
+    const { user, role } = useStore();
+    if (user && role === null) {
+        return <h3>Loading permissions...</h3>;
+      }
+    
+      // Block if not logged in
+      if (!user) {
+        return <h3>You must be logged in to view this page.</h3>;
+      }
+    
+      // Block if not admin
+      if (role !== "admin") {
+        return <h3>Access denied. You do not have permission to view survey responses.</h3>;
+      }
+    
+      // User is logged in and is an admin
+   
     return(
         <>
             <h3>Please click on what type of surveys you would like to view.</h3>
@@ -24,7 +40,7 @@ function SurveyResponses() {
                 </Button>
             </div>
         </>
-    )
+    );
 }
 
 export default SurveyResponses;
