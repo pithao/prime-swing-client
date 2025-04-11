@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from '../../firebase-config'; 
-
+import { auth, db } from '../../firebase-config'; 
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import useStore from "../../zustand/store";
 function LoginPage() {
   // State for login form
   const [loginEmail, setLoginEmail] = useState("");
@@ -10,17 +11,14 @@ function LoginPage() {
   // State for registration form
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-
-  const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const { user, role, setUser, setRole, clearUser, fetchUser } = useStore();
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
+    fetchUser();  // Call fetchUser when the component mounts to initialize user and role
+  }, [fetchUser]);
 
+
+  
   // Handle login
   const handleLogIn = async (event) => {
     event.preventDefault();
@@ -37,9 +35,21 @@ function LoginPage() {
   const handleRegister = async (event) => {
     event.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-      setRegisterEmail("");  // Clear email input
-    setRegisterPassword("");  // Clear password input
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        registerEmail,
+        registerPassword
+      );
+      const newUser = userCredential.user;
+
+      // 🆕 Save to Firestore with default role
+      await setDoc(doc(db, "users", newUser.uid), {
+        email: newUser.email,
+        role: "admin"
+      });
+
+      setRegisterEmail("");
+      setRegisterPassword("");
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -50,6 +60,7 @@ function LoginPage() {
     try {
       await signOut(auth);
       setUser(null);
+      clearUser();  // Ensure the role is also cleared
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -104,6 +115,7 @@ function LoginPage() {
       {user && (
         <>
           <h4>Logged in as: {user.email}</h4>
+          <h5>Role: {role}</h5>
           <button onClick={handleSignOut}>Sign Out</button>
         </>
       )}
