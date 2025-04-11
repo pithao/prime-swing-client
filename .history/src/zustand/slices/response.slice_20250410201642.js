@@ -76,7 +76,7 @@ const responseSlice = (set, get) => ({
               row.danceRatings?.locationSatisfaction || '',
               row.danceRatings?.scheduleSatisfaction || ''
             ]
-          },
+          }
           
 
     //EVENT CONFIG 

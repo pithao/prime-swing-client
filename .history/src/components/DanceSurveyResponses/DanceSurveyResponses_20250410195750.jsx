@@ -73,7 +73,7 @@ function DanceSurveyResponses() {
       <Typography variant="h5" gutterBottom>
         Dance Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV('dance')}>Export to CSV</button>
+      <button onClick={() => exportSurveyToCSV('class')}>Export to CSV</button>
       <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

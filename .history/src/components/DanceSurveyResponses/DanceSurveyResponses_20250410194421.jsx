@@ -22,7 +22,6 @@ import Box from '@mui/material/Box';
 function DanceSurveyResponses() {
   const fetchDanceResponses = useStore((state) => state.fetchDanceResponses);
   const danceResponses = useStore((state) => state.danceResponses);
-  const exportSurveyToCSV = useStore((state) => state.exportSurveyToCSV);
 
   const [docId, setDocId] = useState('');
   const [docInfo, setDocInfo] = useState({});
@@ -73,7 +72,6 @@ function DanceSurveyResponses() {
       <Typography variant="h5" gutterBottom>
         Dance Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV('dance')}>Export to CSV</button>
       <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

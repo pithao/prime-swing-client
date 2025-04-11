@@ -1,6 +1,6 @@
 const responseSlice = (set, get) => ({
     exportSurveyToCSV: (type) => {
-      const responsesMap = { //Get responses in zustand
+      const responsesMap = {
         class: get().classResponses,
         dance: get().danceResponses,
         event: get().eventResponses,
@@ -10,7 +10,7 @@ const responseSlice = (set, get) => ({
       const configs = {
     //CLASS CONFIG
         class: {
-            filename: 'class_survey_responses.csv', //what to name file
+            filename: 'class_survey_responses.csv',
             headers: [
               'Date', 'Anonymous', 'Name', 'Email', 'Contact Permission', 'Dancer Role', 'Age', 'Gender', 'Zip Code',
               'Class Feedback', 'Class Improvement', 'Lead Instructor Comments', 'Follow Instructor Comments',
@@ -42,9 +42,9 @@ const responseSlice = (set, get) => ({
               row.classRatings?.locationSatisfaction || '',
               row.classRatings?.scheduleSatisfaction || ''
             ]
-          },
+          }
           
-    //DANCE CONFIG
+          
           dance: {
             filename: 'dance_survey_responses.csv',
             headers: [
@@ -76,7 +76,7 @@ const responseSlice = (set, get) => ({
               row.danceRatings?.locationSatisfaction || '',
               row.danceRatings?.scheduleSatisfaction || ''
             ]
-          },
+          }
           
 
     //EVENT CONFIG 
@@ -168,14 +168,12 @@ const responseSlice = (set, get) => ({
       if (!config || !responses || responses.length === 0) {
         alert("No data found for export.");
         return;
-      } //validation
+      }
   
-      //combines headers and responses
       const csvContent = [config.headers, ...responses.map(config.rowBuilder)]
         .map(e => e.map(cell => `"${cell}"`).join(','))
         .join('\n');
   
-    //download file using blob
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
