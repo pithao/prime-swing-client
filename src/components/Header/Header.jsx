@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useStore from "../../zustand/store";
 
@@ -47,6 +47,7 @@ function Header() {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [menuAnchors, setMenuAnchors] = React.useState({}); // Separate state for each menu
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -54,13 +55,18 @@ function Header() {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleOpenMenu = (label) => (event) => {
+    setMenuAnchors((prev) => ({ ...prev, [label]: event.currentTarget }));
+  };
+  const handleCloseMenu = (label) => () => {
+    setMenuAnchors((prev) => ({ ...prev, [label]: null }));
   };
 
   return (
@@ -71,6 +77,7 @@ function Header() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* Toolbar logo */}
           <Box
             sx={{
               mr: 2,
@@ -84,6 +91,7 @@ function Header() {
             />
           </Box>
 
+          {/* Mobile nav drop-down */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -112,11 +120,7 @@ function Header() {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
-                <MenuItem
-                  key={page.label}
-                  onClick={handleCloseNavMenu}
-                  href={page.path}
-                >
+                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
                   <Typography sx={{ textAlign: "center" }}>
                     {page.label}
                   </Typography>
@@ -125,18 +129,37 @@ function Header() {
             </Menu>
           </Box>
 
+          {/* Desktop nav with dropdown menus */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
-                key={page.label}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-                href={page.path}
-              >
-                {page.label}
-              </Button>
+              <Box key={page.label}>
+                <Button
+                  onClick={handleOpenMenu(page.label)}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page.label}
+                </Button>
+                <Menu
+                  anchorEl={menuAnchors[page.label]}
+                  open={Boolean(menuAnchors[page.label])}
+                  onClose={handleCloseMenu(page.label)}
+                >
+                  {page.subpages.map((subpage) => (
+                    <MenuItem
+                      key={subpage.label}
+                      component={Link}
+                      to={subpage.path}
+                      onClick={handleCloseMenu(page.label)}
+                    >
+                      {subpage.label}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
             ))}
           </Box>
+
+          {/* Icon/avatar nav link - utility for admins */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
