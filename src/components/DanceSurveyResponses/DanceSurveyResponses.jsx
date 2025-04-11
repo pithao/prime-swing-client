@@ -22,7 +22,8 @@ import Box from '@mui/material/Box';
 function DanceSurveyResponses() {
   const fetchDanceResponses = useStore((state) => state.fetchDanceResponses);
   const danceResponses = useStore((state) => state.danceResponses);
-
+  const user = useStore((state) => state.user);
+  const role = useStore((state) => state.role);
   const [docId, setDocId] = useState('');
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
@@ -42,8 +43,9 @@ function DanceSurveyResponses() {
   };
 
   useEffect(() => {
-    fetchDanceResponses();
-  }, [fetchDanceResponses]);
+    if (role === 'admin') {
+      fetchDanceResponses();
+    }  }, [role, fetchDanceResponses]);
 
   const handleClose = () => {
     setOpen(false);
@@ -63,6 +65,9 @@ function DanceSurveyResponses() {
       setDocInfo({});
     }
   }
+  if (!user) return <h3>You must be logged in to view this page.</h3>;
+  if (role === null) return <h3>Loading permissions...</h3>;
+  if (role !== 'admin') return <h3>Access denied. You do not have permission to view this page.</h3>;
 
   return (
     <Container

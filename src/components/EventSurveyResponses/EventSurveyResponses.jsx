@@ -22,7 +22,8 @@ import Box from '@mui/material/Box';
 function EventSurveyResponses() {
   const fetchEventResponses = useStore((state) => state.fetchEventResponses);
   const eventResponses = useStore((state) => state.eventResponses);
-
+  const user = useStore((state) => state.user);
+  const role = useStore((state) => state.role);
   const [docId, setDocId] = useState('');
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
@@ -42,8 +43,11 @@ function EventSurveyResponses() {
   };
 
   useEffect(() => {
-    fetchEventResponses();
-  }, [fetchEventResponses]);
+    if (role === 'admin') {
+      fetchEventResponses();
+    }
+  }, [role, fetchEventResponses]);
+
 
   const handleClose = () => {
     setOpen(false);
@@ -63,6 +67,9 @@ function EventSurveyResponses() {
       setDocInfo({});
     }
   }
+  if (!user) return <h3>You must be logged in to view this page.</h3>;
+  if (role === null) return <h3>Loading permissions...</h3>;
+  if (role !== 'admin') return <h3>Access denied. You do not have permission to view this page.</h3>;
 
   return (
     <Container
