@@ -76,7 +76,7 @@ const responseSlice = (set, get) => ({
               row.danceRatings?.locationSatisfaction || '',
               row.danceRatings?.scheduleSatisfaction || ''
             ]
-          },
+          }
           
 
     //EVENT CONFIG 
@@ -175,7 +175,7 @@ const responseSlice = (set, get) => ({
         .map(e => e.map(cell => `"${cell}"`).join(','))
         .join('\n');
   
-    //download file using blob
+    
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');

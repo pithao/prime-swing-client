@@ -1,6 +1,6 @@
 const responseSlice = (set, get) => ({
     exportSurveyToCSV: (type) => {
-      const responsesMap = { //Get responses in zustand
+      const responsesMap = {
         class: get().classResponses,
         dance: get().danceResponses,
         event: get().eventResponses,
@@ -8,9 +8,9 @@ const responseSlice = (set, get) => ({
       };
   
       const configs = {
-    //CLASS CONFIG
+        //CLASS CONFIG
         class: {
-            filename: 'class_survey_responses.csv', //what to name file
+            filename: 'class_survey_responses.csv',
             headers: [
               'Date', 'Anonymous', 'Name', 'Email', 'Contact Permission', 'Dancer Role', 'Age', 'Gender', 'Zip Code',
               'Class Feedback', 'Class Improvement', 'Lead Instructor Comments', 'Follow Instructor Comments',
@@ -42,42 +42,30 @@ const responseSlice = (set, get) => ({
               row.classRatings?.locationSatisfaction || '',
               row.classRatings?.scheduleSatisfaction || ''
             ]
-          },
+          }
           
-    //DANCE CONFIG
-          dance: {
+
+        dance: {
             filename: 'dance_survey_responses.csv',
             headers: [
-              'Date', 'Anonymous', 'Name', 'Email', 'Contact Permission', 'Dancer Role', 'Age', 'Gender', 'Zip Code',
-              'Dance Feedback', 'Dance Improvement', 'Lesson Comments', 'DJ Comments', 'General Comments',
-              'Satisfaction', 'Instructor Rating', 'Lesson Satisfaction',
-              'Recommendation Likelihood', 'DJ Satisfaction', 'Location Satisfaction', 'Schedule Satisfaction'
+              'Date', 'Name', 'Email', 'Event Attended', 'Role', 'Dance Experience', 'Favorite Styles',
+              'General Feedback', 'DJ Rating', 'Floor Conditions', 'Music Variety', 'Suggestions'
             ],
             rowBuilder: (row) => [
               row.timestamp?.toDate?.().toLocaleString?.() || '',
-              row.anonymous ? 'Yes' : 'No',
               row.name || '',
               row.email || '',
-              row.contactPermission ? 'Yes' : 'No',
+              row.eventName || '',
               row.dancerRole || '',
-              row.age || '',
-              row.gender || '',
-              row.zipCode || '',
-              row.danceFeedback || '',
-              row.danceImprovement || '',
-              row.lessonComments || '',
-              row.djComments || '',
-              row.generalComments || '',
-              row.danceRatings?.satisfaction || '',
-              row.danceRatings?.instructor || '',
-              row.danceRatings?.lessonSatisfaction || '',
-              row.danceRatings?.recommendationLikelihood || '',
-              row.danceRatings?.djSatisfaction || '',
-              row.danceRatings?.locationSatisfaction || '',
-              row.danceRatings?.scheduleSatisfaction || ''
+              row.experience || '',
+              row.favoriteStyles || '',
+              row.generalFeedback || '',
+              row.eventRatings?.dj || '',
+              row.eventRatings?.floor || '',
+              row.eventRatings?.musicVariety || '',
+              row.suggestions || ''
             ]
           },
-          
 
     //EVENT CONFIG 
           event: {
@@ -168,14 +156,12 @@ const responseSlice = (set, get) => ({
       if (!config || !responses || responses.length === 0) {
         alert("No data found for export.");
         return;
-      } //validation
+      }
   
-      //combines headers and responses
       const csvContent = [config.headers, ...responses.map(config.rowBuilder)]
         .map(e => e.map(cell => `"${cell}"`).join(','))
         .join('\n');
   
-    //download file using blob
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');

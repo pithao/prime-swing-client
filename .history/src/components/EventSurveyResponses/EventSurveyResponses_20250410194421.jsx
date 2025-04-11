@@ -19,10 +19,9 @@ import Typography from '@mui/material/Typography';
 import { Modal } from '@mui/material';
 import Box from '@mui/material/Box';
 
-function DanceSurveyResponses() {
-  const fetchDanceResponses = useStore((state) => state.fetchDanceResponses);
-  const danceResponses = useStore((state) => state.danceResponses);
-  const exportSurveyToCSV = useStore((state) => state.exportSurveyToCSV);
+function EventSurveyResponses() {
+  const fetchEventResponses = useStore((state) => state.fetchEventResponses);
+  const eventResponses = useStore((state) => state.eventResponses);
 
   const [docId, setDocId] = useState('');
   const [docInfo, setDocInfo] = useState({});
@@ -43,8 +42,8 @@ function DanceSurveyResponses() {
   };
 
   useEffect(() => {
-    fetchDanceResponses();
-  }, [fetchDanceResponses]);
+    fetchEventResponses();
+  }, [fetchEventResponses]);
 
   const handleClose = () => {
     setOpen(false);
@@ -52,7 +51,7 @@ function DanceSurveyResponses() {
   };
 
   async function getId(id) {
-    const docRef = doc(db, 'danceSurvey', id);
+    const docRef = doc(db, 'eventSurvey', id);
     const docSnap = await getDoc(docRef);
 
     if (docId === '') {
@@ -71,9 +70,8 @@ function DanceSurveyResponses() {
       sx={{ p: 4, bgcolor: '#fff', boxShadow: 3, borderRadius: 2 }}
     >
       <Typography variant="h5" gutterBottom>
-        Dance Survey Responses
+        Event Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV('dance')}>Export to CSV</button>
       <TableContainer component={Paper} style={{ marginTop: '1rem' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -87,22 +85,28 @@ function DanceSurveyResponses() {
               <TableCell>Dancer's Role</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell>Zip Code</TableCell>
-              <TableCell>Dance Feedback</TableCell>
-              <TableCell>Dance Improvement</TableCell>
-              <TableCell>Lesson Comments</TableCell>
+              <TableCell>Event Feedback</TableCell>
+              <TableCell>Event Improvement</TableCell>
+              <TableCell>Pro Comments</TableCell>
+              <TableCell>Dance Comments</TableCell>
+              <TableCell>Workshop Comments</TableCell>
               <TableCell>DJ Comments</TableCell>
+              <TableCell>Additional Workshops</TableCell>
               <TableCell>General Comments</TableCell>
-              <TableCell>Satisfaction</TableCell>
-              <TableCell>Instructor Rating</TableCell>
-              <TableCell>Lesson Satisfaction</TableCell>
-              <TableCell>Recommendation Likelihood</TableCell>
+              <TableCell>Dances Attended</TableCell>
+              <TableCell>Workshops Attended</TableCell>
+              <TableCell>Event Satisfaction</TableCell>
+              <TableCell>Pro Satisfaction</TableCell>
               <TableCell>DJ Satisfaction</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Schedule</TableCell>
+              <TableCell>Workshop</TableCell>
+              <TableCell>Recommendation Likelihood</TableCell>
+              <TableCell>Workshop Satisfaction</TableCell>
+              <TableCell>Location </TableCell>
+              <TableCell>Schedule </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {danceResponses.map((row) => (
+            {eventResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -120,18 +124,24 @@ function DanceSurveyResponses() {
                 <TableCell>{row.dancerRole}</TableCell>
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.danceFeedback}</TableCell>
-                <TableCell>{row.danceImprovement}</TableCell>
-                <TableCell>{row.lessonComments}</TableCell>
-                <TableCell>{row.djComments}</TableCell>
+                <TableCell>{row.eventFeedback}</TableCell>
+                <TableCell>{row.eventImprovement}</TableCell>
+                <TableCell>{row.proComments}</TableCell>
+                <TableCell>{row.danceComments}</TableCell>
+                <TableCell>{row.workshopComments}</TableCell>
+                <TableCell>{row.djComments}</TableCell> 
+                <TableCell>{row.additionalWorkshops}</TableCell>               
                 <TableCell>{row.generalComments}</TableCell>
-                <TableCell>{row.danceRatings?.satisfaction}</TableCell>
-                <TableCell>{row.danceRatings?.instructor}</TableCell>
-                <TableCell>{row.danceRatings?.lessonSatisfaction}</TableCell>
-                <TableCell>{row.danceRatings?.recommendationLikelihood}</TableCell>
-                <TableCell>{row.danceRatings?.djSatisfaction}</TableCell>
-                <TableCell>{row.danceRatings?.locationSatisfaction}</TableCell>
-                <TableCell>{row.danceRatings?.scheduleSatisfaction}</TableCell>
+                <TableCell>{row.dancesAttended}</TableCell>
+                <TableCell>{row.workshopsAttended}</TableCell>
+                <TableCell>{row.eventRatings?.eventSatisfaction}</TableCell>
+                <TableCell>{row.eventRatings?.pro}</TableCell>
+                <TableCell>{row.eventRatings?.dj}</TableCell>
+                <TableCell>{row.eventRatings?.workshop}</TableCell>
+                <TableCell>{row.eventRatings?.recommendationLikelihood}</TableCell>
+                <TableCell>{row.eventRatings?.workshopSatisfaction}</TableCell>
+                <TableCell>{row.eventRatings?.locationSatisfaction}</TableCell>
+                <TableCell>{row.eventRatings?.scheduleSatisfaction}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -158,33 +168,41 @@ function DanceSurveyResponses() {
             <p>Gender: {docInfo.gender}</p>
             <p>Zip Code: {docInfo.zipCode}</p>
             <h3>Short Answer Responses</h3>
-            <p>Dance Feedback: {docInfo.danceFeedback}</p>
-            <p>Dance Improvements: {docInfo.danceImprovement}</p>
-            <p>Lead Instructor Comments: {docInfo.lessonComments}</p>
+            <p>Dance Feedback: {docInfo.eventFeedback}</p>
+            <p>Dance Improvements: {docInfo.eventImprovement}</p>
+            <p>Lead Instructor Comments: {docInfo.proComments}</p>
+            <p>Lead Instructor Comments: {docInfo.danceComments}</p>
+            <p>Lead Instructor Comments: {docInfo.workshopComments}</p>
             <p>
               Follow Instructor Comments: {docInfo.djComments}
             </p>
+            <p>Lead Instructor Comments: {docInfo.additionalWorkshops}</p>
             <p>General Comments: {docInfo.generalComments}</p>
-            <h3>Dance Ratings</h3>
-            <p>Satisfaction: {docInfo.danceRatings?.satisfaction}</p>
+            <p>Lead Instructor Comments: {docInfo.dancesAttended}</p>
+            <p>Lead Instructor Comments: {docInfo.workshopsAttended}</p>
+            <h3>Event Ratings</h3>
+            <p>Satisfaction: {docInfo.eventRatings?.eventSatisfaction}</p>
             <p>
-            Instructor Rating: {docInfo.danceRatings?.instructor}
+            Pro Satisfaction: {docInfo.eventRatings?.pro}
             </p>
             <p>
-              Lesson Satisfaction Rating: {docInfo.danceRatings?.lessonSatisfaction}
+              DJ Satisfaction: {docInfo.eventRatings?.dj}
             </p>
-            <p>Recommendation Likelihood: {docInfo.danceRatings?.recommendationLikelihood}</p>
             <p>
-              DJ Satisfaction:{' '}
-              {docInfo.danceRatings?.djSatisfaction}
+              Workshop: {docInfo.eventRatings?.workshopComments}
+            </p>
+            <p>Recommendation Likelihood: {docInfo.eventRatings?.recommendationLikelihood}</p>
+            <p>
+             Workshop Satisfaction:{' '}
+              {docInfo.eventRatings?.workshopSatisfaction}
             </p>
             <p>
               Location Satisfaction:{' '}
-              {docInfo.danceRatings?.locationSatisfaction}
+              {docInfo.eventRatings?.locationSatisfaction}
             </p>
             <p>
               Schedule Satisfaction:{' '}
-              {docInfo.danceRatings?.scheduleSatisfaction}
+              {docInfo.eventRatings?.scheduleSatisfaction}
             </p>
           </div>
         </Box>
@@ -193,4 +211,4 @@ function DanceSurveyResponses() {
   );
 }
 
-export default DanceSurveyResponses;
+export default EventSurveyResponses;

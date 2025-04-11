@@ -8,7 +8,7 @@ import responseSlice from './slices/response.slice.js'
 const useStore = create((...args) => ({
   ...userSlice(...args),
   ...surveySlice(...args),
-  ...responseSlice(...args)
+  // ...responseSlice(...args)
 }));
 
 
