@@ -90,17 +90,17 @@ function LocationSurveyResponses() {
             <TableRow>
               <TableCell></TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
+              {/* <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell> */}
               <TableCell>Age</TableCell>
-              <TableCell>Contact Permission</TableCell>
-              <TableCell>Dancer's Role</TableCell>
+              {/* <TableCell>Contact Permission</TableCell>
+              <TableCell>Dancer's Role</TableCell> */}
               <TableCell>Gender</TableCell>
               <TableCell>Zip Code</TableCell>
-              <TableCell>Location Feedback</TableCell>
+              {/* <TableCell>Location Feedback</TableCell>
               <TableCell>Location Improvement</TableCell>
               <TableCell>Location Recommendations</TableCell>
-              <TableCell>General Comments</TableCell>
+              <TableCell>General Comments</TableCell> */}
               <TableCell>Building Satisfaction</TableCell>
               <TableCell>Dance Floor Satisfaction</TableCell>
               <TableCell>Parking Satisfaction</TableCell>
@@ -108,10 +108,10 @@ function LocationSurveyResponses() {
               <TableCell>Importance of Keeping Same Dance Schedule</TableCell>
               <TableCell>Importance of Keeping Same Event Schedule</TableCell>
               <TableCell>Move Outside St. Paul?</TableCell>
-              <TableCell>Location Challenges</TableCell>
+              {/* <TableCell>Location Challenges</TableCell>
               <TableCell>Location Safety</TableCell>
               <TableCell>Location Challenges Explanation</TableCell>
-              <TableCell>Location Safety Explanation</TableCell>
+              <TableCell>Location Safety Explanation</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -126,17 +126,17 @@ function LocationSurveyResponses() {
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
                 </TableCell>
-                <TableCell>{row.name || "Anonymous"}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                {/* <TableCell>{row.name || "Anonymous"}</TableCell>
+                <TableCell>{row.email}</TableCell> */}
                 <TableCell>{row.age}</TableCell>
-                <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
-                <TableCell>{row.dancerRole}</TableCell>
+                {/* <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell> */}
+                {/* <TableCell>{row.dancerRole}</TableCell> */}
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.locationFeedback}</TableCell>
+                {/* <TableCell>{row.locationFeedback}</TableCell>
                 <TableCell>{row.locationImprovement}</TableCell>
-                <TableCell>{row.locationRecommendations}</TableCell>
-                <TableCell>{row.generalComments}</TableCell>
+                <TableCell>{row.locationRecommendations}</TableCell> */}
+                {/* <TableCell>{row.generalComments}</TableCell> */}
                 <TableCell>
                   {row.locationRatings?.buildingSatisfaction}
                 </TableCell>
@@ -156,10 +156,10 @@ function LocationSurveyResponses() {
                   {row.locationRatings?.importanceOfKeepingSameEventSchedule}
                 </TableCell>
                 <TableCell>{row.moveOutsideStPaul}</TableCell>
-                <TableCell>{row.locationChallenges}</TableCell>
+                {/* <TableCell>{row.locationChallenges}</TableCell>
                 <TableCell>{row.locationSafety}</TableCell>
                 <TableCell>{row.locationChallengesExplanation}</TableCell>
-                <TableCell>{row.locationSafetyExplanation}</TableCell>
+                <TableCell>{row.locationSafetyExplanation}</TableCell> */}
               </TableRow>
             ))}
           </TableBody>
@@ -175,7 +175,7 @@ function LocationSurveyResponses() {
       >
         <Box sx={style}>
           <div>
-            <h3>General Information</h3>
+            <h3>Survey Respondent Information</h3>
             <p>Name: {docInfo.name}</p>
             <p>Email: {docInfo.email}</p>
             <p>Age: {docInfo.age}</p>
