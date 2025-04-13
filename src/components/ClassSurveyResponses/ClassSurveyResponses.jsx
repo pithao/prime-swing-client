@@ -86,23 +86,23 @@ function ClassSurveyResponses() {
             <TableRow>
               <TableCell></TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
+              {/* <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell> */}
               <TableCell>Age</TableCell>
-              <TableCell>Contact Permission</TableCell>
-              <TableCell>Dancer's Role</TableCell>
+              {/* <TableCell>Contact Permission</TableCell>
+              <TableCell>Dancer's Role</TableCell> */}
               <TableCell>Gender</TableCell>
               <TableCell>Zip Code</TableCell>
-              <TableCell>Class Feedback</TableCell>
+              {/* <TableCell>Class Feedback</TableCell>
               <TableCell>Class Improvement</TableCell>
               <TableCell>Lead Instructor Comments</TableCell>
               <TableCell>Follow Instructor Comments</TableCell>
               <TableCell>Additional Topics</TableCell>
-              <TableCell>General Comments</TableCell>
+              <TableCell>General Comments</TableCell> */}
               <TableCell>Satisfaction</TableCell>
               <TableCell>Lead Instructor Rating</TableCell>
               <TableCell>Follow Instructor Rating</TableCell>
-              <TableCell>Retake Liklihood</TableCell>
+              <TableCell>Retake Likelihood</TableCell>
               <TableCell>Material Satisfaction</TableCell>
               <TableCell>Location</TableCell>
               <TableCell>Schedule</TableCell>
@@ -120,19 +120,19 @@ function ClassSurveyResponses() {
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
                 </TableCell>
-                <TableCell>{row.name || "Anonymous"}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                {/* <TableCell>{row.name || "Anonymous"}</TableCell>
+                <TableCell>{row.email}</TableCell> */}
                 <TableCell>{row.age}</TableCell>
-                <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
-                <TableCell>{row.dancerRole}</TableCell>
+                {/* <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
+                <TableCell>{row.dancerRole}</TableCell> */}
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.classFeedback}</TableCell>
+                {/* <TableCell>{row.classFeedback}</TableCell>
                 <TableCell>{row.classImprovement}</TableCell>
                 <TableCell>{row.leadInstructorComments}</TableCell>
                 <TableCell>{row.followInstructorComments}</TableCell>
                 <TableCell>{row.additionalTopics}</TableCell>
-                <TableCell>{row.generalComments}</TableCell>
+                <TableCell>{row.generalComments}</TableCell> */}
                 <TableCell>{row.classRatings?.satisfaction}</TableCell>
                 <TableCell>{row.classRatings?.leadInstructor}</TableCell>
                 <TableCell>{row.classRatings?.followInstructor}</TableCell>
@@ -155,7 +155,7 @@ function ClassSurveyResponses() {
       >
         <Box sx={style}>
           <div>
-            <h3>General Applicant Information</h3>
+            <h3>Survey Respondent Information</h3>
             <p>Name: {docInfo.name}</p>
             <p>Email: {docInfo.email}</p>
             <p>Age: {docInfo.age}</p>
