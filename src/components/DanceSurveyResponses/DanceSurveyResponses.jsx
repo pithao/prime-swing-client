@@ -86,18 +86,18 @@ function DanceSurveyResponses() {
             <TableRow>
               <TableCell></TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
+              {/* <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell> */}
               <TableCell>Age</TableCell>
-              <TableCell>Contact Permission</TableCell>
+              {/* <TableCell>Contact Permission</TableCell>
               <TableCell>Dancer's Role</TableCell>
-              <TableCell>Gender</TableCell>
+              <TableCell>Gender</TableCell> */}
               <TableCell>Zip Code</TableCell>
-              <TableCell>Dance Feedback</TableCell>
+              {/* <TableCell>Dance Feedback</TableCell>
               <TableCell>Dance Improvement</TableCell>
               <TableCell>Lesson Comments</TableCell>
               <TableCell>DJ Comments</TableCell>
-              <TableCell>General Comments</TableCell>
+              <TableCell>General Comments</TableCell> */}
               <TableCell>Satisfaction</TableCell>
               <TableCell>Instructor Rating</TableCell>
               <TableCell>Lesson Satisfaction</TableCell>
@@ -119,18 +119,18 @@ function DanceSurveyResponses() {
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
                 </TableCell>
-                <TableCell>{row.name || "Anonymous"}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                {/* <TableCell>{row.name || "Anonymous"}</TableCell>
+                <TableCell>{row.email}</TableCell> */}
                 <TableCell>{row.age}</TableCell>
-                <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
-                <TableCell>{row.dancerRole}</TableCell>
+                {/* <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
+                <TableCell>{row.dancerRole}</TableCell> */}
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.danceFeedback}</TableCell>
+                {/* <TableCell>{row.danceFeedback}</TableCell>
                 <TableCell>{row.danceImprovement}</TableCell>
                 <TableCell>{row.lessonComments}</TableCell>
                 <TableCell>{row.djComments}</TableCell>
-                <TableCell>{row.generalComments}</TableCell>
+                <TableCell>{row.generalComments}</TableCell> */}
                 <TableCell>{row.danceRatings?.satisfaction}</TableCell>
                 <TableCell>{row.danceRatings?.instructor}</TableCell>
                 <TableCell>{row.danceRatings?.lessonSatisfaction}</TableCell>
@@ -155,7 +155,7 @@ function DanceSurveyResponses() {
       >
         <Box sx={style}>
           <div>
-            <h3>General Applicant Information</h3>
+            <h3>Survey Respondent Information</h3>
             <p>Name: {docInfo.name}</p>
             <p>Email: {docInfo.email}</p>
             <p>Age: {docInfo.age}</p>
