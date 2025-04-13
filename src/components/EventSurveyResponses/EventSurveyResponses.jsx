@@ -86,14 +86,14 @@ function EventSurveyResponses() {
             <TableRow>
               <TableCell></TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
+              {/* <TableCell>Name</TableCell> */}
+              {/* <TableCell>Email</TableCell> */}
               <TableCell>Age</TableCell>
-              <TableCell>Contact Permission</TableCell>
-              <TableCell>Dancer's Role</TableCell>
+              {/* <TableCell>Contact Permission</TableCell> */}
+              {/* <TableCell>Dancer's Role</TableCell> */}
               <TableCell>Gender</TableCell>
               <TableCell>Zip Code</TableCell>
-              <TableCell>Event Feedback</TableCell>
+              {/* <TableCell>Event Feedback</TableCell>
               <TableCell>Event Improvement</TableCell>
               <TableCell>Pro Comments</TableCell>
               <TableCell>Dance Comments</TableCell>
@@ -102,7 +102,7 @@ function EventSurveyResponses() {
               <TableCell>Additional Workshops</TableCell>
               <TableCell>General Comments</TableCell>
               <TableCell>Dances Attended</TableCell>
-              <TableCell>Workshops Attended</TableCell>
+              <TableCell>Workshops Attended</TableCell> */}
               <TableCell>Event Satisfaction</TableCell>
               <TableCell>Pro Satisfaction</TableCell>
               <TableCell>DJ Satisfaction</TableCell>
@@ -125,14 +125,14 @@ function EventSurveyResponses() {
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
                 </TableCell>
-                <TableCell>{row.name || "Anonymous"}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                {/* <TableCell>{row.name || "Anonymous"}</TableCell> */}
+                {/* <TableCell>{row.email}</TableCell> */}
                 <TableCell>{row.age}</TableCell>
-                <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell>
-                <TableCell>{row.dancerRole}</TableCell>
+                {/* <TableCell>{row.contactPermission ? "Yes" : "No"}</TableCell> */}
+                {/* <TableCell>{row.dancerRole}</TableCell> */}
                 <TableCell>{row.gender}</TableCell>
                 <TableCell>{row.zipCode}</TableCell>
-                <TableCell>{row.eventFeedback}</TableCell>
+                {/* <TableCell>{row.eventFeedback}</TableCell>
                 <TableCell>{row.eventImprovement}</TableCell>
                 <TableCell>{row.proComments}</TableCell>
                 <TableCell>{row.danceComments}</TableCell>
@@ -141,7 +141,7 @@ function EventSurveyResponses() {
                 <TableCell>{row.additionalWorkshops}</TableCell>
                 <TableCell>{row.generalComments}</TableCell>
                 <TableCell>{row.dancesAttended}</TableCell>
-                <TableCell>{row.workshopsAttended}</TableCell>
+                <TableCell>{row.workshopsAttended}</TableCell> */}
                 <TableCell>{row.eventRatings?.eventSatisfaction}</TableCell>
                 <TableCell>{row.eventRatings?.pro}</TableCell>
                 <TableCell>{row.eventRatings?.dj}</TableCell>
@@ -167,7 +167,7 @@ function EventSurveyResponses() {
       >
         <Box sx={style}>
           <div>
-            <h3>General Applicant Information</h3>
+            <h3>Survey Respondent Information</h3>
             <p>Name: {docInfo.name}</p>
             <p>Email: {docInfo.email}</p>
             <p>Age: {docInfo.age}</p>
