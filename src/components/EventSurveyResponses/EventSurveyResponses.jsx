@@ -25,6 +25,12 @@ function EventSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
+  const paginatedEventResponses = useStore((state) => state.paginatedEventResponses());
+  const eventPage = useStore((state) => state.eventPage);
+  const eventPageCount = useStore((state) => state.eventPageCount());
+  const nextEventPage = useStore((state) => state.nextEventPage);
+  const prevEventPage = useStore((state) => state.prevEventPage);
+
 
   const style = {
     position: "absolute",
@@ -114,7 +120,7 @@ function EventSurveyResponses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {eventResponses.map((row) => (
+            {paginatedEventResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -157,6 +163,18 @@ function EventSurveyResponses() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
+  <button onClick={prevEventPage} disabled={eventPage === 0}>
+    Previous
+  </button>
+  <Typography>
+    Page {eventPage + 1} of {eventPageCount}
+  </Typography>
+  <button onClick={nextEventPage} disabled={eventPage >= eventPageCount - 1}>
+    Next
+  </button>
+</Box>
 
       <Modal
         open={open}
