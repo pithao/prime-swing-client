@@ -9,11 +9,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 function Copyright() {
   return (
     <Typography variant="body2" sx={{ color: "text.secondary", mt: 1 }}>
-      {"Copyright © "}
-      <Link color="text.secondary" href="#">
-        Sitemark
-      </Link>{" "}
-      {new Date().getFullYear()}
+      Copyright © {new Date().getFullYear()} Twin Cities Rebels Swing Dance Club
     </Typography>
   );
 }
@@ -43,7 +39,7 @@ function Footer() {
           }}
         >
           <div>
-            <Link color="text.secondary" variant="body2" href="#">
+            {/* <Link color="text.secondary" variant="body2" href="#">
               Privacy Policy
             </Link>
             <Typography sx={{ display: "inline", mx: 0.5, opacity: 0.5 }}>
@@ -51,7 +47,7 @@ function Footer() {
             </Typography>
             <Link color="text.secondary" variant="body2" href="#">
               Terms of Service
-            </Link>
+            </Link> */}
             <Copyright />
           </div>
           <Stack
@@ -63,7 +59,7 @@ function Footer() {
             <IconButton
               color="inherit"
               size="small"
-              href="#"
+              href="https://www.tcrebels.com/"
               aria-label="Visit our website"
               target="_blank"
               rel="noopener noreferrer"

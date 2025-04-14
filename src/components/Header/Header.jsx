@@ -45,6 +45,7 @@ const settings = ["Dashboard", "Logout"];
 
 function Header() {
   const user = useStore((state) => state.user);
+  const { role, setUser, setRole, clearUser, fetchUser } = useStore();
   const logOut = useStore((state) => state.logOut);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -71,6 +72,17 @@ function Header() {
     setMenuAnchors((prev) => ({ ...prev, [label]: null }));
   };
 
+  // Handle sign-out
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      clearUser(); // Ensure the role is also cleared
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
   return (
     <AppBar
       position="static"
@@ -86,102 +98,108 @@ function Header() {
               display: { xs: "none", md: "flex" },
             }}
           >
-            <img
-              src="/images/rebels-logo.png"
-              style={{ width: "7rem", padding: "1rem" }}
-              alt="Twin Cities Rebels Swing Dance Club"
-            />
+            <Link to="/">
+              <img
+                src="/images/rebels-logo.png"
+                style={{ width: "7rem", padding: "1rem" }}
+                alt="Twin Cities Rebels Swing Dance Club"
+              />
+            </Link>
           </Box>
 
-          {/* Mobile nav drop-down */}
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: "block", md: "none" } }}
-            >
-              {pages.map((page) => (
-                <Box key={page.label}>
-                  {/* Main menu item */}
-                  <Typography
-                    sx={{
-                      fontWeight: "bold",
-                      pl: 2,
-                      backgroundColor: "black",
-                      color: "white",
-                      padding: ".5rem",
-                    }}
-                  >
-                    {page.label}
-                  </Typography>
-
-                  {/* Submenu for subpages */}
-                  {page.subpages.map((subpage) => (
-                    <MenuItem
-                      key={subpage.label}
-                      component={Link}
-                      to={subpage.path}
-                      onClick={handleCloseNavMenu}
-                      sx={{ pl: 4 }} // Add padding for indentation
-                    >
-                      {subpage.label}
-                    </MenuItem>
-                  ))}
-                </Box>
-              ))}
-            </Menu>
-          </Box>
-
-          {/* Desktop nav with dropdown menus */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Box key={page.label}>
-                <Button
-                  onClick={handleOpenMenu(page.label)}
-                  sx={{ my: 2, color: "white", display: "block" }}
+          {user && (
+            <>
+              {/* Mobile nav drop-down */}
+              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
                 >
-                  {page.label}
-                </Button>
+                  <MenuIcon />
+                </IconButton>
                 <Menu
-                  anchorEl={menuAnchors[page.label]}
-                  open={Boolean(menuAnchors[page.label])}
-                  onClose={handleCloseMenu(page.label)}
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{ display: { xs: "block", md: "none" } }}
                 >
-                  {page.subpages.map((subpage) => (
-                    <MenuItem
-                      key={subpage.label}
-                      component={Link}
-                      to={subpage.path}
-                      onClick={handleCloseMenu(page.label)}
-                    >
-                      {subpage.label}
-                    </MenuItem>
+                  {pages.map((page) => (
+                    <Box key={page.label}>
+                      {/* Main menu item */}
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          pl: 2,
+                          backgroundColor: "black",
+                          color: "white",
+                          padding: ".5rem",
+                        }}
+                      >
+                        {page.label}
+                      </Typography>
+
+                      {/* Submenu for subpages */}
+                      {page.subpages.map((subpage) => (
+                        <MenuItem
+                          key={subpage.label}
+                          component={Link}
+                          to={subpage.path}
+                          onClick={handleCloseNavMenu}
+                          sx={{ pl: 4 }} // Add padding for indentation
+                        >
+                          {subpage.label}
+                        </MenuItem>
+                      ))}
+                    </Box>
                   ))}
                 </Menu>
               </Box>
-            ))}
-          </Box>
+
+              {/* Desktop nav with dropdown menus */}
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {pages.map((page) => (
+                  <Box key={page.label}>
+                    <Button
+                      onClick={handleOpenMenu(page.label)}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      {page.label}
+                    </Button>
+                    <Menu
+                      anchorEl={menuAnchors[page.label]}
+                      open={Boolean(menuAnchors[page.label])}
+                      onClose={handleCloseMenu(page.label)}
+                    >
+                      {page.subpages.map((subpage) => (
+                        <MenuItem
+                          key={subpage.label}
+                          component={Link}
+                          to={subpage.path}
+                          onClick={handleCloseMenu(page.label)}
+                        >
+                          {subpage.label}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </Box>
+                ))}
+              </Box>
+            </>
+          )}
 
           {/* Icon/avatar nav link - utility for admins */}
           {/* <Box sx={{ flexGrow: 0 }}>

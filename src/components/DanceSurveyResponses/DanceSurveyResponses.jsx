@@ -15,6 +15,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { Modal } from "@mui/material";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 function DanceSurveyResponses() {
   const fetchDanceResponses = useStore((state) => state.fetchDanceResponses);
@@ -25,7 +26,9 @@ function DanceSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
-  const paginatedDanceResponses = useStore((state) => state.paginatedDanceResponses());
+  const paginatedDanceResponses = useStore((state) =>
+    state.paginatedDanceResponses()
+  );
   const dancePage = useStore((state) => state.dancePage);
   const dancePageCount = useStore((state) => state.dancePageCount());
   const nextDancePage = useStore((state) => state.nextDancePage);
@@ -84,7 +87,9 @@ function DanceSurveyResponses() {
       <Typography variant="h5" gutterBottom>
         Dance Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV("dance")}>Export to CSV</button>
+      <Button variant="outlined" onClick={() => exportSurveyToCSV("dance")}>
+        Export to CSV
+      </Button>
       <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -119,7 +124,13 @@ function DanceSurveyResponses() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>
-                  <button onClick={() => getId(row.id)}>More Info</button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => getId(row.id)}
+                  >
+                    View
+                  </Button>
                 </TableCell>
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
@@ -151,17 +162,26 @@ function DanceSurveyResponses() {
         </Table>
       </TableContainer>
 
-      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
-  <button onClick={prevDancePage} disabled={dancePage === 0}>
-    Previous
-  </button>
-  <Typography>
-    Page {dancePage + 1} of {dancePageCount}
-  </Typography>
-  <button onClick={nextDancePage} disabled={dancePage >= dancePageCount - 1}>
-    Next
-  </button>
-</Box>
+      <Box
+        mt={2}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
+      >
+        <Button onClick={prevDancePage} disabled={dancePage === 0}>
+          Previous
+        </Button>
+        <Typography>
+          Page {dancePage + 1} of {dancePageCount}
+        </Typography>
+        <Button
+          onClick={nextDancePage}
+          disabled={dancePage >= dancePageCount - 1}
+        >
+          Next
+        </Button>
+      </Box>
 
       <Modal
         open={open}

@@ -15,7 +15,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { Modal } from "@mui/material";
 import Box from "@mui/material/Box";
-
+import Button from "@mui/material/Button";
 
 function LocationSurveyResponses() {
   const fetchLocationResponses = useStore(
@@ -28,7 +28,9 @@ function LocationSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
-  const paginatedLocationResponses = useStore((state) => state.paginatedLocationResponses());
+  const paginatedLocationResponses = useStore((state) =>
+    state.paginatedLocationResponses()
+  );
   const locationPage = useStore((state) => state.locationPage);
   const locationPageCount = useStore((state) => state.locationPageCount());
   const nextLocationPage = useStore((state) => state.nextLocationPage);
@@ -87,9 +89,9 @@ function LocationSurveyResponses() {
       <Typography variant="h5" gutterBottom>
         Location Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV("location")}>
+      <Button variant="outlined" onClick={() => exportSurveyToCSV("location")}>
         Export to CSV
-      </button>
+      </Button>
       <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -127,7 +129,13 @@ function LocationSurveyResponses() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>
-                  <button onClick={() => getId(row.id)}>More Info</button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => getId(row.id)}
+                  >
+                    View
+                  </Button>
                 </TableCell>
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
@@ -172,17 +180,26 @@ function LocationSurveyResponses() {
         </Table>
       </TableContainer>
 
-      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
-  <button onClick={prevLocationPage} disabled={locationPage === 0}>
-    Previous
-  </button>
-  <Typography>
-    Page {locationPage + 1} of {locationPageCount}
-  </Typography>
-  <button onClick={nextLocationPage} disabled={locationPage >= locationPageCount - 1}>
-    Next
-  </button>
-</Box>
+      <Box
+        mt={2}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
+      >
+        <Button onClick={prevLocationPage} disabled={locationPage === 0}>
+          Previous
+        </Button>
+        <Typography>
+          Page {locationPage + 1} of {locationPageCount}
+        </Typography>
+        <Button
+          onClick={nextLocationPage}
+          disabled={locationPage >= locationPageCount - 1}
+        >
+          Next
+        </Button>
+      </Box>
 
       <Modal
         open={open}

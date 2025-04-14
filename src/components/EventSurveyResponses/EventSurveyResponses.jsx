@@ -15,6 +15,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { Modal } from "@mui/material";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 function EventSurveyResponses() {
   const fetchEventResponses = useStore((state) => state.fetchEventResponses);
@@ -25,12 +26,13 @@ function EventSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
-  const paginatedEventResponses = useStore((state) => state.paginatedEventResponses());
+  const paginatedEventResponses = useStore((state) =>
+    state.paginatedEventResponses()
+  );
   const eventPage = useStore((state) => state.eventPage);
   const eventPageCount = useStore((state) => state.eventPageCount());
   const nextEventPage = useStore((state) => state.nextEventPage);
   const prevEventPage = useStore((state) => state.prevEventPage);
-
 
   const style = {
     position: "absolute",
@@ -85,7 +87,9 @@ function EventSurveyResponses() {
       <Typography variant="h5" gutterBottom>
         Event Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV("event")}>Export to CSV</button>
+      <Button variant="outlined" onClick={() => exportSurveyToCSV("event")}>
+        Export to CSV
+      </Button>
       <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -126,7 +130,13 @@ function EventSurveyResponses() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>
-                  <button onClick={() => getId(row.id)}>More Info</button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => getId(row.id)}
+                  >
+                    View
+                  </Button>
                 </TableCell>
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
@@ -164,17 +174,27 @@ function EventSurveyResponses() {
         </Table>
       </TableContainer>
 
-      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
-  <button onClick={prevEventPage} disabled={eventPage === 0}>
-    Previous
-  </button>
-  <Typography>
-    Page {eventPage + 1} of {eventPageCount}
-  </Typography>
-  <button onClick={nextEventPage} disabled={eventPage >= eventPageCount - 1}>
-    Next
-  </button>
-</Box>
+      <Box
+        mt={2}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
+      >
+        <Button size="small" onClick={prevEventPage} disabled={eventPage === 0}>
+          Previous
+        </Button>
+        <Typography>
+          Page {eventPage + 1} of {eventPageCount}
+        </Typography>
+        <Button
+          size="small"
+          onClick={nextEventPage}
+          disabled={eventPage >= eventPageCount - 1}
+        >
+          Next
+        </Button>
+      </Box>
 
       <Modal
         open={open}

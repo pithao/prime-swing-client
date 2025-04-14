@@ -12,6 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Modal } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -25,7 +26,9 @@ function ClassSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
-  const paginatedClassResponses = useStore((state) => state.paginatedClassResponses());
+  const paginatedClassResponses = useStore((state) =>
+    state.paginatedClassResponses()
+  );
   const classPage = useStore((state) => state.classPage);
   const classPageCount = useStore((state) => state.classPageCount());
   const nextClassPage = useStore((state) => state.nextClassPage);
@@ -84,7 +87,9 @@ function ClassSurveyResponses() {
       <Typography variant="h5" gutterBottom>
         Class Survey Responses
       </Typography>
-      <button onClick={() => exportSurveyToCSV("class")}>Export to CSV</button>
+      <Button variant="outlined" onClick={() => exportSurveyToCSV("class")}>
+        Export to CSV
+      </Button>
       <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -120,7 +125,13 @@ function ClassSurveyResponses() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>
-                  <button onClick={() => getId(row.id)}>More Info</button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => getId(row.id)}
+                  >
+                    View
+                  </Button>
                 </TableCell>
                 <TableCell>
                   {row.timestamp?.toDate?.().toLocaleString?.() || "—"}
@@ -151,17 +162,26 @@ function ClassSurveyResponses() {
         </Table>
       </TableContainer>
 
-      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
-  <button onClick={prevClassPage} disabled={classPage === 0}>
-    Previous
-  </button>
-  <Typography>
-    Page {classPage + 1} of {classPageCount}
-  </Typography>
-  <button onClick={nextClassPage} disabled={classPage >= classPageCount - 1}>
-    Next
-  </button>
-</Box>
+      <Box
+        mt={2}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
+      >
+        <Button onClick={prevClassPage} disabled={classPage === 0}>
+          Previous
+        </Button>
+        <Typography>
+          Page {classPage + 1} of {classPageCount}
+        </Typography>
+        <Button
+          onClick={nextClassPage}
+          disabled={classPage >= classPageCount - 1}
+        >
+          Next
+        </Button>
+      </Box>
 
       <Modal
         open={open}
