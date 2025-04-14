@@ -25,6 +25,11 @@ function ClassSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
+  const paginatedClassResponses = useStore((state) => state.paginatedClassResponses());
+  const classPage = useStore((state) => state.classPage);
+  const classPageCount = useStore((state) => state.classPageCount());
+  const nextClassPage = useStore((state) => state.nextClassPage);
+  const prevClassPage = useStore((state) => state.prevClassPage);
 
   const style = {
     position: "absolute",
@@ -109,7 +114,7 @@ function ClassSurveyResponses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {classResponses.map((row) => (
+            {paginatedClassResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -145,6 +150,18 @@ function ClassSurveyResponses() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
+  <button onClick={prevClassPage} disabled={classPage === 0}>
+    Previous
+  </button>
+  <Typography>
+    Page {classPage + 1} of {classPageCount}
+  </Typography>
+  <button onClick={nextClassPage} disabled={classPage >= classPageCount - 1}>
+    Next
+  </button>
+</Box>
 
       <Modal
         open={open}

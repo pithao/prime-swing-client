@@ -248,14 +248,6 @@ const surveySlice = (set, get) => ({
   eventResponses: [],
   locationResponses: [],
 
-  // page: 0,
-  // pageSize: 10,
-
-  // setLocationResponses: (locationResponses) => set({ locationResponses}),
-  // setPage: (page) => set({ page }),
-  // nextPage: () => set((state) => ({ page: state.page + 1 })),
-  // prevPage: () => set((state) => ({ page: Math.max(0, state.page - 1) })),
-
   fetchDanceResponses: async () => {
     const q = query(collection(db, 'danceSurvey'), orderBy('timestamp', 'desc'));
     const snapshot = await getDocs(q);
@@ -299,6 +291,64 @@ const surveySlice = (set, get) => ({
       })),
     });
   },
+
+  // ---------- Pagination Functions ----------
+dancePage: 0,
+dancePageSize: 10,
+setDancePage: (page) => set({ dancePage: page }),
+nextDancePage: () => set((state) => ({ dancePage: state.dancePage + 1 })),
+prevDancePage: () =>
+  set((state) => ({ dancePage: Math.max(0, state.dancePage - 1) })),
+paginatedDanceResponses: () => {
+  const { danceResponses, dancePage, dancePageSize } = get();
+  const start = dancePage * dancePageSize;
+  return danceResponses.slice(start, start + dancePageSize);
+},
+dancePageCount: () =>
+  Math.ceil(get().danceResponses.length / get().dancePageSize),
+
+classPage: 0,
+classPageSize: 10,
+setClassPage: (page) => set({ classPage: page }),
+nextClassPage: () => set((state) => ({ classPage: state.classPage + 1 })),
+prevClassPage: () =>
+  set((state) => ({ classPage: Math.max(0, state.classPage - 1) })),
+paginatedClassResponses: () => {
+  const { classResponses, classPage, classPageSize } = get();
+  const start = classPage * classPageSize;
+  return classResponses.slice(start, start + classPageSize);
+},
+classPageCount: () =>
+  Math.ceil(get().classResponses.length / get().classPageSize),
+
+eventPage: 0,
+eventPageSize: 10,
+setEventPage: (page) => set({ eventPage: page }),
+nextEventPage: () => set((state) => ({ eventPage: state.eventPage + 1 })),
+prevEventPage: () =>
+  set((state) => ({ eventPage: Math.max(0, state.eventPage - 1) })),
+paginatedEventResponses: () => {
+  const { eventResponses, eventPage, eventPageSize } = get();
+  const start = eventPage * eventPageSize;
+  return eventResponses.slice(start, start + eventPageSize);
+},
+eventPageCount: () =>
+  Math.ceil(get().eventResponses.length / get().eventPageSize),
+
+locationPage: 0,
+locationPageSize: 10,
+setLocationPage: (page) => set({ locationPage: page }),
+nextLocationPage: () => set((state) => ({ locationPage: state.locationPage + 1 })),
+prevLocationPage: () =>
+  set((state) => ({ locationPage: Math.max(0, state.locationPage - 1) })),
+paginatedLocationResponses: () => {
+  const { locationResponses, locationPage, locationPageSize } = get();
+  const start = locationPage * locationPageSize;
+  return locationResponses.slice(start, start + locationPageSize);
+},
+locationPageCount: () =>
+  Math.ceil(get().locationResponses.length / get().locationPageSize),
+
 });
 
 export default surveySlice;

@@ -25,6 +25,11 @@ function DanceSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
+  const paginatedDanceResponses = useStore((state) => state.paginatedDanceResponses());
+  const dancePage = useStore((state) => state.dancePage);
+  const dancePageCount = useStore((state) => state.dancePageCount());
+  const nextDancePage = useStore((state) => state.nextDancePage);
+  const prevDancePage = useStore((state) => state.prevDancePage);
 
   const style = {
     position: "absolute",
@@ -108,7 +113,7 @@ function DanceSurveyResponses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {danceResponses.map((row) => (
+            {paginatedDanceResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -145,6 +150,18 @@ function DanceSurveyResponses() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
+  <button onClick={prevDancePage} disabled={dancePage === 0}>
+    Previous
+  </button>
+  <Typography>
+    Page {dancePage + 1} of {dancePageCount}
+  </Typography>
+  <button onClick={nextDancePage} disabled={dancePage >= dancePageCount - 1}>
+    Next
+  </button>
+</Box>
 
       <Modal
         open={open}
