@@ -222,7 +222,6 @@ function LocationSurveyResponses() {
             <p>Zip Code: {docInfo.zipCode}</p>
             <h3>Short Answer Responses</h3>
             <p>Dance Feedback: {docInfo.locationFeedback}</p>
-            <p>Dance Improvements: {docInfo.locationImprovement}</p>
             <p>Location Improvement Comments: {docInfo.locationImprovement}</p>
             <p>Location Recommendations: {docInfo.locationRecommendations}</p>
             <p>General Comments: {docInfo.generalComments}</p>
