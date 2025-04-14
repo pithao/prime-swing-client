@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import { Modal } from "@mui/material";
 import Box from "@mui/material/Box";
 
+
 function LocationSurveyResponses() {
   const fetchLocationResponses = useStore(
     (state) => state.fetchLocationResponses
@@ -27,6 +28,7 @@ function LocationSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
+  
 
   const style = {
     position: "absolute",

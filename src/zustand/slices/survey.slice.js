@@ -248,24 +248,52 @@ const surveySlice = (set, get) => ({
   eventResponses: [],
   locationResponses: [],
 
+  // page: 0,
+  // pageSize: 10,
+
+  // setLocationResponses: (locationResponses) => set({ locationResponses}),
+  // setPage: (page) => set({ page }),
+  // nextPage: () => set((state) => ({ page: state.page + 1 })),
+  // prevPage: () => set((state) => ({ page: Math.max(0, state.page - 1) })),
+
   fetchDanceResponses: async () => {
-    const snapshot = await getDocs(collection(db, "danceSurvey"));
-    set({ danceResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+    const snapshot = await getDocs(collection(db, 'danceSurvey'));
+    set({
+      danceResponses: snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })),
+    });
   },
 
   fetchClassResponses: async () => {
-    const snapshot = await getDocs(collection(db, "classSurvey"));
-    set({ classResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+    const snapshot = await getDocs(collection(db, 'classSurvey'));
+    set({
+      classResponses: snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })),
+    });
   },
 
   fetchEventResponses: async () => {
-    const snapshot = await getDocs(collection(db, "eventSurvey"));
-    set({ eventResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+    const snapshot = await getDocs(collection(db, 'eventSurvey'));
+    set({
+      eventResponses: snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })),
+    });
   },
 
   fetchLocationResponses: async () => {
-    const snapshot = await getDocs(collection(db, "locationSurvey"));
-    set({ locationResponses: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) });
+    const snapshot = await getDocs(collection(db, 'locationSurvey'));
+    set({
+      locationResponses: snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })),
+    });
   },
 });
 
