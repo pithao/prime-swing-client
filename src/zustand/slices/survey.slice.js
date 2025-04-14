@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 const surveySlice = (set, get) => ({
@@ -257,7 +257,8 @@ const surveySlice = (set, get) => ({
   // prevPage: () => set((state) => ({ page: Math.max(0, state.page - 1) })),
 
   fetchDanceResponses: async () => {
-    const snapshot = await getDocs(collection(db, 'danceSurvey'));
+    const q = query(collection(db, 'danceSurvey'), orderBy('timestamp', 'desc'));
+    const snapshot = await getDocs(q);
     set({
       danceResponses: snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -267,7 +268,8 @@ const surveySlice = (set, get) => ({
   },
 
   fetchClassResponses: async () => {
-    const snapshot = await getDocs(collection(db, 'classSurvey'));
+    const q = query(collection(db, 'classSurvey'), orderBy('timestamp', 'desc'));
+    const snapshot = await getDocs(q);
     set({
       classResponses: snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -277,7 +279,8 @@ const surveySlice = (set, get) => ({
   },
 
   fetchEventResponses: async () => {
-    const snapshot = await getDocs(collection(db, 'eventSurvey'));
+    const q = query(collection(db, 'eventSurvey'), orderBy('timestamp', 'desc'));
+    const snapshot = await getDocs(q);
     set({
       eventResponses: snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -287,7 +290,8 @@ const surveySlice = (set, get) => ({
   },
 
   fetchLocationResponses: async () => {
-    const snapshot = await getDocs(collection(db, 'locationSurvey'));
+    const q = query(collection(db, 'locationSurvey'), orderBy('timestamp', 'desc'));
+    const snapshot = await getDocs(q);
     set({
       locationResponses: snapshot.docs.map((doc) => ({
         id: doc.id,
