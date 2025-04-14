@@ -28,7 +28,11 @@ function LocationSurveyResponses() {
   const [docId, setDocId] = useState("");
   const [docInfo, setDocInfo] = useState({});
   const [open, setOpen] = useState(false);
-  
+  const paginatedLocationResponses = useStore((state) => state.paginatedLocationResponses());
+  const locationPage = useStore((state) => state.locationPage);
+  const locationPageCount = useStore((state) => state.locationPageCount());
+  const nextLocationPage = useStore((state) => state.nextLocationPage);
+  const prevLocationPage = useStore((state) => state.prevLocationPage);
 
   const style = {
     position: "absolute",
@@ -117,7 +121,7 @@ function LocationSurveyResponses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {locationResponses.map((row) => (
+            {paginatedLocationResponses.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -167,6 +171,18 @@ function LocationSurveyResponses() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Box mt={2} display="flex" justifyContent="center" alignItems="center" gap={2}>
+  <button onClick={prevLocationPage} disabled={locationPage === 0}>
+    Previous
+  </button>
+  <Typography>
+    Page {locationPage + 1} of {locationPageCount}
+  </Typography>
+  <button onClick={nextLocationPage} disabled={locationPage >= locationPageCount - 1}>
+    Next
+  </button>
+</Box>
 
       <Modal
         open={open}
