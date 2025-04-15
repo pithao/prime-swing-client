@@ -83,7 +83,7 @@ const ClassSurvey = () => {
       sx={{ p: 4, bgcolor: '#fff', boxShadow: 3, borderRadius: 2 }}
     >
       <Typography variant="h5" gutterBottom>
-        Dance Class Survey
+        Class Survey
       </Typography>
 
       {/* gutterBottom adds spacing ebtween this and the form for formatting. nifty. */}

@@ -208,7 +208,7 @@ const LocationSurvey = () => {
         </Typography>
         <TextField
           fullWidth
-          label="What did you like about the our current location?"
+          label="What did you like about the current location?"
           name="locationFeedback"
           multiline
           rows={3}
