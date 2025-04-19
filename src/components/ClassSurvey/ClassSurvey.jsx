@@ -86,7 +86,7 @@ const ClassSurvey = () => {
         Class Survey
       </Typography>
 
-      {/* gutterBottom adds spacing ebtween this and the form for formatting. nifty. */}
+      {/* gutterBottom adds spacing between this and the form for formatting. nifty. */}
 
       <form onSubmit={handleSubmit} >
         <FormControlLabel
