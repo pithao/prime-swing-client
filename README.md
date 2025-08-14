@@ -42,7 +42,7 @@ The app implements a robust user authentication system using Passport.js local s
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd swing-dance-app
+   cd prime-swing-client
    ```
 
 2. **Install dependencies**
@@ -95,6 +95,7 @@ For session storage, the app connects to:
 - Database: swing-dance (for local development)
 
 ### Production Deployment
+For production, build the app using npm run build and serve the static files from your backend or a hosting provider like Netlify or Vercel.
 For production, set these environment variables:
 - All Firebase configuration variables
 - `DATABASE_URL` for PostgreSQL session storage
